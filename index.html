@@ -1,0 +1,2830 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Digital | SOS Bombones</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        /* CSS RESET & VARIABLES */
+        :root {
+            --dark-choco: #2b2b2b;
+            --deep-choco: #3E2723;
+            --gold: #D4A373;
+            --gold-light: rgba(212, 163, 115, 0.15);
+            --caramel: #B08968;
+            --cream: #E6D6C8;
+            --cream-light: #f0e8df;
+            --white: #ffffff;
+            --gray: #f4f4f4;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Outfit', sans-serif;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --shadow-card: 0 4px 20px rgba(62, 39, 35, 0.08);
+            --shadow-card-hover: 0 12px 35px rgba(62, 39, 35, 0.15);
+            --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            html {
+                scroll-padding-top: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            html {
+                scroll-padding-top: 95px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            html {
+                scroll-padding-top: 85px;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--cream-light);
+            color: var(--deep-choco);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* SCROLL ANIMATIONS */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* UTILITIES */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 90px 0;
+        }
+
+        /* HEADER / COVER CAROUSEL */
+        header.catalog-cover {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .carousel-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.8s ease-in-out;
+            transform: scale(1.05);
+        }
+
+        .carousel-item.active {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 1.8s ease-in-out, transform 8s ease-out;
+        }
+
+        .carousel-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(30, 20, 18, 0.75) 0%,
+                rgba(30, 20, 18, 0.85) 50%,
+                rgba(30, 20, 18, 0.95) 100%
+            );
+            z-index: 0;
+        }
+
+        .cover-content {
+            animation: coverFadeIn 1.5s ease-out;
+        }
+
+        @keyframes coverFadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cover-content h2 {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            letter-spacing: 5px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .cover-content h1 {
+            font-family: var(--font-serif);
+            font-size: 5rem;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            text-shadow: 0 4px 30px rgba(212, 163, 115, 0.3);
+        }
+
+        .cover-content p {
+            max-width: 600px;
+            font-size: 1.15rem;
+            opacity: 0.85;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .cover-logo {
+            max-width: 400px;
+            width: 80%;
+        }
+
+        .edition-badge {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            border: 1px solid rgba(212, 163, 115, 0.4);
+            padding: 8px 16px;
+            border-radius: 30px;
+            color: var(--gold);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            animation: scrollBounce 2s ease-in-out infinite;
+            cursor: pointer;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .scroll-indicator::after {
+            content: '';
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+        }
+
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* NAVIGATION BAR (Internal anchors) */
+        .nav-sticky {
+            position: sticky;
+            top: 0;
+            background: rgba(62, 39, 35, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-bottom: 1px solid rgba(212, 163, 115, 0.15);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-sticky::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-sticky a {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            transition: all var(--transition);
+            padding: 18px 28px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .nav-sticky a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width var(--transition);
+        }
+
+        .nav-sticky a:hover {
+            color: var(--gold);
+        }
+
+        .nav-sticky a:hover::after {
+            width: 60%;
+        }
+
+        .nav-pascua {
+            background: linear-gradient(135deg, #d4a373, #e8c170);
+            color: var(--deep-choco) !important;
+            font-weight: 700 !important;
+            letter-spacing: 2px !important;
+            border-radius: 0;
+            position: relative;
+            overflow: hidden;
+            animation: pascuaPulse 2.5s ease-in-out infinite;
+        }
+
+        .nav-pascua::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: pascuaShine 3s ease-in-out infinite;
+        }
+
+        .nav-pascua::after {
+            display: none !important;
+        }
+
+        .nav-pascua:hover {
+            color: var(--deep-choco) !important;
+            background: linear-gradient(135deg, #e8c170, #f0d48a);
+        }
+
+        @keyframes pascuaPulse {
+            0%, 100% { box-shadow: inset 0 0 0 0 rgba(232, 193, 112, 0); }
+            50% { box-shadow: inset 0 0 20px 0 rgba(232, 193, 112, 0.15); }
+        }
+
+        @keyframes pascuaShine {
+            0% { left: -100%; }
+            50%, 100% { left: 100%; }
+        }
+
+        /* PASCUA SPECIAL SECTION */
+        .section-pascua {
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-pascua::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #D4A373, #e8c170, #D4A373, transparent);
+        }
+
+        .section-pascua::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #D4A373, #e8c170, #D4A373, transparent);
+        }
+
+        .pascua-deco {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* --- BORDE SUPERIOR (horizontal) --- */
+        .pascua-deco:nth-child(1)  { top: 12px;  left: 5%;   font-size: 2.8rem; opacity: 0.6; animation: floatBig 5s ease-in-out infinite 0s; }
+        .pascua-deco:nth-child(2)  { top: 8px;   left: 18%;  font-size: 2.4rem; opacity: 0.5; animation: floatSpin 6s ease-in-out infinite 0.8s; }
+        .pascua-deco:nth-child(3)  { top: 14px;  left: 32%;  font-size: 2.6rem; opacity: 0.55; animation: floatBig 5.5s ease-in-out infinite 1.5s; }
+        .pascua-deco:nth-child(4)  { top: 10px;  left: 50%;  font-size: 2.3rem; opacity: 0.5; animation: floatSpin 6.5s ease-in-out infinite 0.3s; }
+        .pascua-deco:nth-child(5)  { top: 12px;  left: 65%;  font-size: 2.7rem; opacity: 0.6; animation: floatBig 5.8s ease-in-out infinite 2s; }
+        .pascua-deco:nth-child(6)  { top: 8px;   left: 80%;  font-size: 2.5rem; opacity: 0.5; animation: floatSpin 6s ease-in-out infinite 1.2s; }
+        .pascua-deco:nth-child(7)  { top: 14px;  right: 3%;  font-size: 2.8rem; opacity: 0.55; animation: floatBig 5.2s ease-in-out infinite 0.5s; }
+
+        /* --- BORDE IZQUIERDO (vertical) --- */
+        .pascua-deco:nth-child(8)  { top: 10%;  left: 8px;  font-size: 2.6rem; opacity: 0.55; animation: floatSpin 6s ease-in-out infinite 1s; }
+        .pascua-deco:nth-child(9)  { top: 20%;  left: 12px; font-size: 2.4rem; opacity: 0.5;  animation: floatBig 5.5s ease-in-out infinite 2.2s; }
+        .pascua-deco:nth-child(10) { top: 30%;  left: 6px;  font-size: 2.8rem; opacity: 0.6;  animation: floatSpin 6.5s ease-in-out infinite 0.4s; }
+        .pascua-deco:nth-child(11) { top: 40%;  left: 10px; font-size: 2.5rem; opacity: 0.5;  animation: floatBig 5s ease-in-out infinite 1.8s; }
+        .pascua-deco:nth-child(12) { top: 50%;  left: 8px;  font-size: 2.7rem; opacity: 0.55; animation: floatSpin 6s ease-in-out infinite 0.7s; }
+        .pascua-deco:nth-child(13) { top: 60%;  left: 12px; font-size: 2.3rem; opacity: 0.5;  animation: floatBig 5.8s ease-in-out infinite 2.5s; }
+        .pascua-deco:nth-child(14) { top: 70%;  left: 6px;  font-size: 2.8rem; opacity: 0.6;  animation: floatSpin 5.5s ease-in-out infinite 1.3s; }
+        .pascua-deco:nth-child(15) { top: 80%;  left: 10px; font-size: 2.5rem; opacity: 0.5;  animation: floatBig 6s ease-in-out infinite 0.2s; }
+        .pascua-deco:nth-child(16) { top: 90%;  left: 8px;  font-size: 2.6rem; opacity: 0.55; animation: floatSpin 5.2s ease-in-out infinite 1.6s; }
+
+        /* --- BORDE DERECHO (vertical) --- */
+        .pascua-deco:nth-child(17) { top: 10%;  right: 8px;  font-size: 2.5rem; opacity: 0.5;  animation: floatBig 6s ease-in-out infinite 0.6s; }
+        .pascua-deco:nth-child(18) { top: 20%;  right: 12px; font-size: 2.7rem; opacity: 0.55; animation: floatSpin 5.5s ease-in-out infinite 2s; }
+        .pascua-deco:nth-child(19) { top: 30%;  right: 6px;  font-size: 2.4rem; opacity: 0.5;  animation: floatBig 6.5s ease-in-out infinite 1.1s; }
+        .pascua-deco:nth-child(20) { top: 40%;  right: 10px; font-size: 2.8rem; opacity: 0.6;  animation: floatSpin 5s ease-in-out infinite 0.9s; }
+        .pascua-deco:nth-child(21) { top: 50%;  right: 8px;  font-size: 2.3rem; opacity: 0.5;  animation: floatBig 5.8s ease-in-out infinite 2.3s; }
+        .pascua-deco:nth-child(22) { top: 60%;  right: 12px; font-size: 2.6rem; opacity: 0.55; animation: floatSpin 6s ease-in-out infinite 0.5s; }
+        .pascua-deco:nth-child(23) { top: 70%;  right: 6px;  font-size: 2.8rem; opacity: 0.6;  animation: floatBig 5.2s ease-in-out infinite 1.7s; }
+        .pascua-deco:nth-child(24) { top: 80%;  right: 10px; font-size: 2.5rem; opacity: 0.5;  animation: floatSpin 6.5s ease-in-out infinite 0.3s; }
+        .pascua-deco:nth-child(25) { top: 90%;  right: 8px;  font-size: 2.7rem; opacity: 0.55; animation: floatBig 5.5s ease-in-out infinite 2.6s; }
+
+        /* --- BORDE INFERIOR (horizontal) --- */
+        .pascua-deco:nth-child(26) { bottom: 12px; left: 4%;   font-size: 2.6rem; opacity: 0.55; animation: floatSpin 5.5s ease-in-out infinite 1s; }
+        .pascua-deco:nth-child(27) { bottom: 8px;  left: 17%;  font-size: 2.8rem; opacity: 0.6;  animation: floatBig 6s ease-in-out infinite 0.4s; }
+        .pascua-deco:nth-child(28) { bottom: 14px; left: 33%;  font-size: 2.4rem; opacity: 0.5;  animation: floatSpin 5.8s ease-in-out infinite 2.1s; }
+        .pascua-deco:nth-child(29) { bottom: 10px; left: 48%;  font-size: 2.7rem; opacity: 0.55; animation: floatBig 5s ease-in-out infinite 0.7s; }
+        .pascua-deco:nth-child(30) { bottom: 12px; left: 63%;  font-size: 2.5rem; opacity: 0.5;  animation: floatSpin 6.5s ease-in-out infinite 1.4s; }
+        .pascua-deco:nth-child(31) { bottom: 8px;  left: 78%;  font-size: 2.8rem; opacity: 0.6;  animation: floatBig 5.2s ease-in-out infinite 0.2s; }
+        .pascua-deco:nth-child(32) { bottom: 14px; right: 4%;  font-size: 2.6rem; opacity: 0.55; animation: floatSpin 6s ease-in-out infinite 1.9s; }
+
+        @keyframes floatBig {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(8deg); }
+            75% { transform: translateY(10px) rotate(-6deg); }
+        }
+
+        @keyframes floatSpin {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            30% { transform: translateY(-8px) rotate(-10deg); }
+            70% { transform: translateY(8px) rotate(10deg); }
+        }
+
+        .section-pascua .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .pascua-deco { font-size: 1.8rem !important; }
+            .pascua-deco:nth-child(2),
+            .pascua-deco:nth-child(4),
+            .pascua-deco:nth-child(6) { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .pascua-deco { font-size: 1.5rem !important; }
+        }
+
+        .pascua-banner {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .pascua-badge {
+            display: inline-block;
+            background: var(--deep-choco);
+            color: #fff;
+            font-family: var(--font-sans);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            padding: 10px 30px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            animation: pascuaBadgePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pascuaBadgePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(62, 39, 35, 0.4); }
+            50% { box-shadow: 0 0 20px 8px rgba(62, 39, 35, 0.15); }
+        }
+
+        .section-pascua .category-header {
+            margin-bottom: 55px;
+        }
+
+        .section-pascua .category-header h2 {
+            color: var(--deep-choco);
+            font-size: 3.6rem;
+        }
+
+        .section-pascua .category-header p {
+            color: rgba(62, 39, 35, 0.55);
+            font-size: 1.1rem;
+            max-width: 550px;
+            margin: 15px auto 0;
+            line-height: 1.7;
+        }
+
+        .section-pascua .sub-category-header h3 {
+            color: var(--deep-choco);
+        }
+
+        .section-pascua .sub-category-header h3::before,
+        .section-pascua .sub-category-header h3::after {
+            background: var(--gold);
+            opacity: 0.6;
+        }
+
+        .section-pascua .product-card {
+            background: #E6D6C8;
+            border: none;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 2px 15px rgba(62, 39, 35, 0.08);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .section-pascua .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(62, 39, 35, 0.15);
+        }
+
+        .section-pascua .product-image {
+            background: #d9c4b0;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .section-pascua .product-info {
+            padding: 24px 20px 20px;
+        }
+
+        .section-pascua .product-info h3 {
+            color: var(--deep-choco);
+            font-size: 1.3rem;
+        }
+
+        .section-pascua .product-info p {
+            color: rgba(62, 39, 35, 0.55);
+        }
+
+        .section-pascua .btn-more {
+            border-color: var(--deep-choco);
+            color: var(--deep-choco);
+            border-width: 1.5px;
+        }
+
+        .section-pascua .btn-more:hover {
+            background: var(--deep-choco);
+            color: #fff;
+            border-color: var(--deep-choco);
+        }
+
+        @media (max-width: 768px) {
+            .section-pascua .category-header h2 {
+                font-size: 2.6rem;
+            }
+            .section-pascua .category-header p {
+                font-size: 0.95rem;
+            }
+            .pascua-badge {
+                font-size: 0.62rem;
+                letter-spacing: 3px;
+                padding: 8px 22px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-pascua .category-header h2 {
+                font-size: 2rem;
+            }
+            .section-pascua .category-header p {
+                font-size: 0.88rem;
+            }
+            .pascua-badge {
+                font-size: 0.58rem;
+                letter-spacing: 2px;
+                padding: 7px 18px;
+            }
+            .section-pascua .product-card {
+                border-radius: var(--radius-md);
+            }
+            .section-pascua .product-image {
+                border-radius: var(--radius-md) var(--radius-md) 0 0;
+            }
+        }
+
+        /* CATEGORY SECTIONS */
+        .category-header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .category-header h2 {
+            font-family: var(--font-serif);
+            font-size: 3.2rem;
+            color: var(--deep-choco);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 20px;
+        }
+
+        .category-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        .category-header h2::before {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+        }
+
+        .sub-category-header {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 35px;
+            position: relative;
+        }
+
+        .sub-category-header h3 {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            display: inline-block;
+            padding: 0 25px;
+            position: relative;
+        }
+
+        .sub-category-header h3::before,
+        .sub-category-header h3::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+            opacity: 0.5;
+        }
+
+        .sub-category-header h3::before {
+            right: 100%;
+        }
+
+        .sub-category-header h3::after {
+            left: 100%;
+        }
+
+        /* GRID & CAROUSEL LAYOUT */
+        .product-grid {
+            display: grid;
+            gap: 30px;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .carousel-container {
+            position: relative;
+            padding: 0 50px;
+            margin-bottom: 20px;
+        }
+
+        .product-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 30px;
+            padding: 20px 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
+        }
+
+        .product-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .product-carousel .product-card {
+            flex: 0 0 calc(25% - 22.5px);
+            min-width: 250px;
+            scroll-snap-align: start;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--white);
+            color: var(--deep-choco);
+            border: 1px solid rgba(62, 39, 35, 0.1);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            transition: all var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .carousel-nav:hover {
+            background: var(--gold);
+            color: var(--white);
+            border-color: var(--gold);
+            transform: translateY(-50%) scale(1.08);
+            box-shadow: 0 6px 20px rgba(212, 163, 115, 0.3);
+        }
+
+        .carousel-nav.prev {
+            left: -10px;
+        }
+
+        .carousel-nav.next {
+            right: -10px;
+        }
+
+        @media (max-width: 1024px) {
+            .product-carousel .product-card {
+                flex: 0 0 calc(50% - 15px);
+                min-width: 220px;
+            }
+
+            .carousel-container {
+                padding: 0;
+            }
+
+            .carousel-nav {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .product-carousel {
+                gap: 16px;
+                padding: 10px 0;
+                scroll-snap-type: x mandatory;
+            }
+
+            .product-carousel .product-card {
+                flex: 0 0 80%;
+                min-width: 0;
+            }
+        }
+
+        /* CARD DESIGN */
+        .product-card {
+            background: var(--white);
+            border: 1px solid rgba(62, 39, 35, 0.06);
+            border-radius: var(--radius-md);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow var(--transition), transform var(--transition);
+        }
+
+        .product-card:hover {
+            box-shadow: var(--shadow-card-hover);
+        }
+
+        .product-image {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            background: var(--cream);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 22px 18px 18px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-info h3 {
+            font-family: var(--font-serif);
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--deep-choco);
+            letter-spacing: -0.01em;
+        }
+
+        .product-info p {
+            font-size: 0.92rem;
+            color: rgba(62, 39, 35, 0.6);
+            line-height: 1.65;
+            margin-bottom: 18px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .btn-more {
+            display: inline-block;
+            padding: 10px 28px;
+            background: transparent;
+            border: 1.5px solid var(--gold);
+            color: var(--deep-choco);
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all var(--transition);
+            border-radius: 30px;
+            margin-top: auto;
+        }
+
+        .btn-more:hover {
+            background: var(--gold);
+            color: var(--white);
+            border-color: var(--gold);
+        }
+
+        /* PRODUCT MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            inset: 0;
+            background: rgba(43, 43, 43, 0.6);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 2vh 5vw;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--white);
+            max-width: 95vw;
+            width: fit-content;
+            height: 85vh;
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 40px 120px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(212, 163, 115, 0.15);
+            transform: scale(0.92) translateY(40px);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.6rem;
+            color: var(--deep-choco);
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: var(--deep-choco);
+            color: var(--white);
+        }
+
+        .modal-gallery {
+            flex: 0 1 auto;
+            background: var(--cream-light);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .modal-gallery img {
+            width: auto;
+            max-width: 60vw;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .modal-gallery:hover img {
+            transform: scale(1.03);
+        }
+
+        /* ZOOM FUNCTIONALITY */
+        .btn-zoom {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 30;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            color: var(--deep-choco);
+        }
+
+        .btn-zoom:hover {
+            transform: scale(1.1);
+            background: #fff;
+            color: var(--gold);
+        }
+
+        .modal-gallery.zoomed img {
+            transform: scale(2);
+            cursor: zoom-out;
+        }
+
+        .modal-gallery.zoomed {
+            overflow: auto;
+        }
+
+        /* BOTÓN FLOTANTE WHATSAPP */
+        .whatsapp-float {
+            position: fixed;
+            width: 56px;
+            height: 56px;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50%;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+            z-index: 1500;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: all var(--transition);
+        }
+
+        .whatsapp-float:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.45);
+        }
+
+        .whatsapp-float svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 16px;
+            }
+
+            .whatsapp-float svg {
+                width: 26px;
+                height: 26px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .whatsapp-float {
+                width: 46px;
+                height: 46px;
+                bottom: 16px;
+                right: 14px;
+            }
+
+            .whatsapp-float svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        .modal-details {
+            flex: 1;
+            padding: 55px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--white);
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .modal-details::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 15%;
+            bottom: 15%;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+        }
+
+        .modal-details h2 {
+            font-family: var(--font-serif);
+            font-size: 2.6rem;
+            color: var(--deep-choco);
+            margin-bottom: 25px;
+            line-height: 1.15;
+            font-weight: 700;
+        }
+
+        .modal-details h2::after {
+            content: 'Selección Gourmet';
+            display: block;
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-top: 12px;
+            font-weight: 600;
+        }
+
+        .modal-details p {
+            font-size: 1.1rem;
+            line-height: 1.75;
+            color: rgba(62, 39, 35, 0.65);
+            margin-bottom: 45px;
+            font-weight: 400;
+            font-family: var(--font-sans);
+        }
+
+        .btn-consultar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: fit-content;
+            padding: 18px 40px;
+            background: var(--deep-choco);
+            color: var(--white);
+            text-align: center;
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(62, 39, 35, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-consultar:hover {
+            transform: translateY(-3px);
+            background: var(--gold);
+            color: var(--deep-choco);
+            box-shadow: 0 15px 35px rgba(212, 163, 115, 0.3);
+        }
+
+        .btn-consultar svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 992px) {
+            .modal {
+                padding: 0;
+            }
+
+            .modal-content {
+                flex-direction: column;
+                height: 100vh;
+                height: 100dvh;
+                width: 100%;
+                max-width: 100vw;
+                border-radius: 0;
+            }
+
+            .modal-gallery {
+                flex: none;
+                height: 45vh;
+                height: 45dvh;
+            }
+
+            .modal-gallery img {
+                max-width: 100%;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+            .modal-details {
+                flex: 1;
+                padding: 30px 24px;
+                text-align: center;
+                justify-content: flex-start;
+                overflow-y: auto;
+            }
+
+            .modal-details h2 {
+                font-size: 1.8rem;
+                margin-bottom: 15px;
+            }
+
+            .modal-details h2::after {
+                margin: 8px auto 12px auto;
+                font-size: 0.68rem;
+                letter-spacing: 3px;
+            }
+
+            .modal-details p {
+                font-size: 1rem;
+                margin-bottom: 25px;
+                line-height: 1.65;
+            }
+
+            .modal-details::before {
+                display: none;
+            }
+
+            .btn-consultar {
+                width: 100%;
+                border-radius: var(--radius-md);
+                margin-top: auto;
+                padding: 16px 30px;
+            }
+
+            .modal-close {
+                top: 12px;
+                right: 12px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.4rem;
+            }
+
+            .btn-zoom {
+                bottom: 12px;
+                right: 12px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                flex-direction: column;
+            }
+
+            .modal-gallery {
+                height: 40vh;
+                height: 40dvh;
+            }
+
+            .modal-details {
+                padding: 22px 20px;
+            }
+
+            .modal-details h2 {
+                font-size: 1.6rem;
+            }
+
+            .modal-details p {
+                font-size: 0.92rem;
+                margin-bottom: 20px;
+            }
+
+            .btn-consultar {
+                padding: 14px 24px;
+                font-size: 0.78rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .modal-gallery {
+                height: 35vh;
+                height: 35dvh;
+            }
+
+            .modal-details {
+                padding: 18px 16px;
+            }
+
+            .modal-details h2 {
+                font-size: 1.4rem;
+                margin-bottom: 10px;
+            }
+
+            .modal-details h2::after {
+                font-size: 0.6rem;
+                letter-spacing: 2px;
+                margin-top: 6px;
+            }
+
+            .modal-details p {
+                font-size: 0.88rem;
+                margin-bottom: 16px;
+                line-height: 1.6;
+            }
+
+            .btn-consultar {
+                padding: 13px 20px;
+                font-size: 0.75rem;
+                gap: 8px;
+            }
+
+            .btn-consultar svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .modal-close {
+                top: 10px;
+                right: 10px;
+                width: 36px;
+                height: 36px;
+                font-size: 1.2rem;
+            }
+
+            .btn-zoom {
+                bottom: 10px;
+                right: 10px;
+                width: 36px;
+                height: 36px;
+            }
+        }
+
+        /* VARIACIONES PARA SECCIONES OSCURAS */
+        .section-dark {
+            background-color: var(--deep-choco);
+            color: var(--white);
+            position: relative;
+        }
+
+        .section-dark::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.3;
+        }
+
+        .section-dark .category-header h2 {
+            color: var(--white);
+        }
+
+        .section-dark .category-header h2::before {
+            background: var(--gold);
+        }
+
+        .section-dark .product-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-dark .product-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(212, 163, 115, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-dark .product-image {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .section-dark .product-info h3 {
+            color: var(--white);
+        }
+
+        .section-dark .product-info p {
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .section-dark .btn-more {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .section-dark .btn-more:hover {
+            background: var(--gold);
+            color: var(--deep-choco);
+        }
+
+        .section-dark .sub-category-header h3::before,
+        .section-dark .sub-category-header h3::after {
+            background: rgba(212, 163, 115, 0.4);
+        }
+
+        .section-dark .carousel-nav {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: var(--white);
+        }
+
+        .section-dark .carousel-nav:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--deep-choco);
+        }
+
+        /* FOOTER / CALL TO ACTION */
+        footer {
+            background: var(--dark-choco);
+            color: var(--white);
+            padding: 80px 0 50px;
+            text-align: center;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.4;
+        }
+
+        footer h2 {
+            font-family: var(--font-serif);
+            font-size: 2.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--gold);
+        }
+
+        footer > .container > p {
+            font-size: 1.05rem;
+            opacity: 0.7;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .contact-info {
+            font-size: 0.85rem;
+            opacity: 0.5;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .contact-info p {
+            margin-bottom: 5px;
+        }
+
+        .footer-btn {
+            display: inline-block;
+            background: var(--gold);
+            border: none;
+            color: var(--deep-choco);
+            padding: 16px 45px;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all var(--transition);
+            box-shadow: 0 8px 25px rgba(212, 163, 115, 0.25);
+        }
+
+        .footer-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(212, 163, 115, 0.35);
+            background: #e0b48a;
+        }
+
+        /* RESPONSIVE DESIGN */
+
+        /* TABLET LANDSCAPE (1024px) */
+        @media (max-width: 1024px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 24px;
+            }
+
+            .section-padding {
+                padding: 70px 0;
+            }
+
+            .container {
+                padding: 0 24px;
+            }
+
+            .cover-content h1 {
+                font-size: 4rem;
+                letter-spacing: 5px;
+            }
+
+            .cover-content h2 {
+                font-size: 2rem;
+            }
+
+            .modal-gallery img {
+                max-width: 50vw;
+            }
+        }
+
+        /* TABLET PORTRAIT (768px) */
+        @media (max-width: 768px) {
+            .cover-logo {
+                max-width: 280px;
+                margin-bottom: 20px !important;
+            }
+
+            .cover-content h1 {
+                font-size: 3rem;
+                letter-spacing: 3px;
+                margin-bottom: 1.2rem;
+            }
+
+            .cover-content h2 {
+                font-size: 1.6rem;
+                letter-spacing: 3px;
+            }
+
+            .cover-content p {
+                font-size: 1rem;
+                padding: 0 10px;
+                line-height: 1.7;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+
+            .product-info {
+                padding: 16px 14px 14px;
+            }
+
+            .product-info h3 {
+                font-size: 1.15rem;
+                margin-bottom: 8px;
+            }
+
+            .product-info p {
+                font-size: 0.85rem;
+                margin-bottom: 14px;
+                -webkit-line-clamp: 2;
+                line-clamp: 2;
+            }
+
+            .btn-more {
+                padding: 9px 22px;
+                font-size: 0.72rem;
+                letter-spacing: 1.5px;
+            }
+
+            .category-header h2 {
+                font-size: 2.4rem;
+            }
+
+            .category-header {
+                margin-bottom: 35px;
+            }
+
+            .sub-category-header h3 {
+                font-size: 1.6rem;
+                letter-spacing: 2px;
+            }
+
+            .sub-category-header {
+                margin-top: 20px;
+                margin-bottom: 25px;
+            }
+
+            .section-padding {
+                padding: 55px 0;
+            }
+
+            .edition-badge {
+                top: 16px;
+                right: 16px;
+                font-size: 0.62rem;
+                padding: 6px 12px;
+                letter-spacing: 2px;
+            }
+
+            .nav-sticky {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                overflow-x: visible;
+                white-space: normal;
+                padding: 0;
+                gap: 0;
+            }
+
+            .nav-sticky a {
+                padding: 14px 8px;
+                font-size: 0.6rem;
+                letter-spacing: 1.5px;
+                text-align: center;
+                border-bottom: 1px solid rgba(255,255,255,0.06);
+            }
+
+            .nav-sticky .nav-pascua {
+                grid-column: auto;
+                padding: 14px 8px;
+                border-radius: 0;
+                font-size: 0.6rem;
+                letter-spacing: 1.5px !important;
+            }
+
+            footer {
+                padding: 60px 0 40px;
+            }
+
+            footer h2 {
+                font-size: 2rem;
+            }
+
+            footer > .container > p {
+                font-size: 0.95rem;
+            }
+
+            .footer-btn {
+                padding: 14px 35px;
+                font-size: 0.78rem;
+            }
+
+            .contact-info {
+                margin-top: 30px;
+                padding-top: 25px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* CELULAR GRANDE (480px) */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            header.catalog-cover {
+                height: 100svh;
+            }
+
+            .cover-logo {
+                max-width: 220px;
+                margin-bottom: 16px !important;
+            }
+
+            .cover-content h1 {
+                font-size: 2.2rem;
+                letter-spacing: 2px;
+                margin-bottom: 1rem;
+            }
+
+            .cover-content h2 {
+                font-size: 1.2rem;
+                letter-spacing: 2px;
+                margin-bottom: 0.3rem;
+            }
+
+            .cover-content p {
+                font-size: 0.9rem;
+                line-height: 1.6;
+                padding: 0 5px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .product-info {
+                padding: 12px 10px 12px;
+            }
+
+            .product-info h3 {
+                font-size: 1rem;
+                margin-bottom: 6px;
+            }
+
+            .product-info p {
+                font-size: 0.8rem;
+                margin-bottom: 10px;
+                line-height: 1.5;
+                -webkit-line-clamp: 2;
+                line-clamp: 2;
+            }
+
+            .btn-more {
+                padding: 8px 18px;
+                font-size: 0.68rem;
+                letter-spacing: 1px;
+            }
+
+            .category-header h2 {
+                font-size: 1.9rem;
+                padding-bottom: 15px;
+            }
+
+            .category-header {
+                margin-bottom: 28px;
+            }
+
+            .sub-category-header h3 {
+                font-size: 1.3rem;
+                letter-spacing: 1.5px;
+                padding: 0 15px;
+            }
+
+            .sub-category-header h3::before,
+            .sub-category-header h3::after {
+                width: 25px;
+            }
+
+            .sub-category-header {
+                margin-top: 15px;
+                margin-bottom: 20px;
+            }
+
+            .section-padding {
+                padding: 45px 0;
+            }
+
+            .edition-badge {
+                top: 12px;
+                right: 12px;
+                font-size: 0.58rem;
+                padding: 5px 10px;
+                letter-spacing: 1.5px;
+            }
+
+            .nav-sticky {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                overflow-x: visible;
+                white-space: normal;
+                padding: 0;
+                gap: 0;
+            }
+
+            .nav-sticky a {
+                padding: 12px 6px;
+                font-size: 0.56rem;
+                letter-spacing: 1.2px;
+                text-align: center;
+                border-bottom: 1px solid rgba(255,255,255,0.06);
+            }
+
+            .nav-sticky .nav-pascua {
+                grid-column: auto;
+                padding: 12px 6px;
+                border-radius: 0;
+                font-size: 0.56rem;
+                letter-spacing: 1.2px !important;
+            }
+
+            .scroll-indicator {
+                bottom: 20px;
+            }
+
+            .scroll-indicator span {
+                font-size: 0.6rem;
+                letter-spacing: 2px;
+            }
+
+            .scroll-indicator::after {
+                height: 30px;
+            }
+
+            footer {
+                padding: 45px 0 30px;
+            }
+
+            footer h2 {
+                font-size: 1.6rem;
+                margin-bottom: 0.5rem;
+            }
+
+            footer > .container > p {
+                font-size: 0.88rem;
+                line-height: 1.6;
+            }
+
+            .footer-btn {
+                padding: 13px 30px;
+                font-size: 0.75rem;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .contact-info {
+                margin-top: 25px;
+                padding-top: 20px;
+                font-size: 0.75rem;
+            }
+
+            .contact-info p {
+                margin-bottom: 3px;
+            }
+        }
+
+        /* CELULAR PEQUEÑO (360px) */
+        @media (max-width: 360px) {
+            .cover-logo {
+                max-width: 180px;
+                margin-bottom: 12px !important;
+            }
+
+            .cover-content h1 {
+                font-size: 1.8rem;
+                letter-spacing: 1px;
+            }
+
+            .cover-content h2 {
+                font-size: 1rem;
+                letter-spacing: 1.5px;
+            }
+
+            .cover-content p {
+                font-size: 0.85rem;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .product-info h3 {
+                font-size: 0.9rem;
+            }
+
+            .product-info p {
+                font-size: 0.75rem;
+            }
+
+            .btn-more {
+                padding: 7px 14px;
+                font-size: 0.65rem;
+            }
+
+            .category-header h2 {
+                font-size: 1.6rem;
+            }
+
+            .sub-category-header h3 {
+                font-size: 1.1rem;
+            }
+
+            .nav-sticky a {
+                padding: 10px 4px;
+                font-size: 0.5rem;
+                letter-spacing: 0.8px;
+            }
+
+            .nav-sticky .nav-pascua {
+                grid-column: auto;
+                padding: 10px 4px;
+                border-radius: 0;
+                font-size: 0.5rem;
+                letter-spacing: 0.8px !important;
+            }
+
+            footer h2 {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* PRINT MODE */
+        @media print {
+
+            header,
+            .nav-sticky,
+            footer {
+                display: none !important;
+            }
+
+            body {
+                background: white !important;
+                color: black !important;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                max-width: 100% !important;
+            }
+
+            .section-padding {
+                padding: 20px 0 !important;
+                page-break-after: always;
+            }
+
+            .category-header h2 {
+                font-size: 2rem !important;
+                color: black !important;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 20px !important;
+            }
+
+            .product-card {
+                box-shadow: none !important;
+                border: 1px solid #eee !important;
+                page-break-inside: avoid;
+            }
+
+            .product-info h3,
+            .product-price {
+                color: black !important;
+            }
+
+            .section-dark {
+                background: white !important;
+                color: black !important;
+            }
+
+            .section-dark .product-card {
+                background: white !important;
+                border: 1px solid #eee !important;
+            }
+
+            .section-dark .product-info h3,
+            .section-dark .product-info p {
+                color: black !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PORTADA -->
+    <header class="catalog-cover">
+        <div class="carousel-bg">
+            <div class="carousel-item active" style="background-image: url('portadas/hero-bg-2.jpg');"></div>
+            <div class="carousel-item" style="background-image: url('portadas/portada1.jpeg');"></div>
+            <div class="carousel-item" style="background-image: url('Tortas/tortachoco.jpeg');"></div>
+        </div>
+        <div class="carousel-overlay"></div>
+        <div class="edition-badge">EDITION #2026</div>
+        <div class="container cover-content" style="position: relative; z-index: 10;">
+            <img src="Logo completo claro.png" alt="SOS Bombones Logo"
+                class="cover-logo"
+                style="max-width: 400px; width: 80%; margin-bottom: 30px;">
+            <h1>CATÁLOGO 2026</h1>
+            <p>Descubra una colección curada de delicias artesanales. Cada pieza es una obra de arte, elaborada con los
+                granos de cacao más finos y rellenos premium.</p>
+        </div>
+        <div class="scroll-indicator" onclick="document.querySelector('.nav-sticky').scrollIntoView({behavior:'smooth'})">
+            <span>Explorar</span>
+        </div>
+    </header>
+
+    <script>
+        const items = document.querySelectorAll('.carousel-item');
+        let current = 0;
+
+        function nextSlide() {
+            items[current].classList.remove('active');
+            current = (current + 1) % items.length;
+            items[current].classList.add('active');
+        }
+
+        setInterval(nextSlide, 5000); // Cambia cada 5 segundos
+    </script>
+
+    <!-- NAVEGACIÓN RÁPIDA -->
+    <div class="nav-sticky">
+        <a href="#pascua" class="nav-pascua">&#10024; Pascuas &#10024;</a>
+        <a href="#choc">Chocolatería</a>
+        <a href="#masas">Masas Secas</a>
+        <a href="#alfajores">Alfajores</a>
+        <a href="#tortas">Tortas</a>
+        <a href="#tartas">Tartas</a>
+    </div>
+
+    <!-- SECCIÓN: PASCUA (DESTACADA) -->
+    <section id="pascua" class="section-padding section-pascua">
+        <!-- BORDE SUPERIOR -->
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#127819;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#127872;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <!-- BORDE IZQUIERDO -->
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#127872;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#127819;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#127872;</span>
+        <!-- BORDE DERECHO -->
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#127819;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#127872;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#127872;</span>
+        <!-- BORDE INFERIOR -->
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#127872;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#127819;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <div class="container">
+            <div class="category-header reveal">
+                <div class="pascua-banner">
+                    <span class="pascua-badge">Edición Limitada 2026</span>
+                </div>
+                <h2>Pascuas</h2>
+                <p>Descubrí nuestra colección especial de Pascuas, elaborada con amor y los mejores ingredientes artesanales.</p>
+            </div>
+
+            <div class="sub-category-header">
+                <h3>Huevos de Pascua</h3>
+            </div>
+            <div class="product-grid">
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="pascuas/pascua7.jpeg" alt="Huevo de Pascua Artesanal">
+                    </div>
+                    <div class="product-info">
+                        <h3>Huevo Artesanal</h3>
+                        <p>Huevo de chocolate con leche texturado, elaborado a mano con finas líneas de chocolate.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Huevo Artesanal', 'pascuas/pascua7.jpeg', 'Nuestro huevo insignia de Pascua. Cáscara de chocolate con leche elaborada artesanalmente con un elegante acabado de líneas texturadas y borde decorativo. Un clásico irresistible.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="pascuas/pascua11.jpeg" alt="Huevo de Pascua Premium">
+                    </div>
+                    <div class="product-info">
+                        <h3>Huevo Premium</h3>
+                        <p>Chocolate semiamargo con acabado rayado y borde de ganache artesanal.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Huevo Premium', 'pascuas/pascua11.jpeg', 'Para los amantes del chocolate intenso. Huevo de chocolate semiamargo con un acabado artesanal de líneas finas y un borde decorativo de ganache que le da un toque de distinción.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="pascuas/pascua8.jpeg" alt="Colección Huevos de Pascua">
+                    </div>
+                    <div class="product-info">
+                        <h3>Colección Familia</h3>
+                        <p>Set de huevos en tres tamaños, ideales para compartir en familia.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Colección Familia', 'pascuas/pascua8.jpeg', 'La opción perfecta para toda la familia. Tres huevos de chocolate artesanal en diferentes tamaños, elaborados con el mismo cuidado y calidad premium que nos caracteriza.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="pascuas/pascua5.jpeg" alt="Huevos de Pascua para Regalar">
+                    </div>
+                    <div class="product-info">
+                        <h3>Huevos para Regalar</h3>
+                        <p>Trío de huevos envueltos en celofán con moños de colores.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Huevos para Regalar', 'pascuas/pascua5.jpeg', 'La presentación ideal para regalar. Huevos de chocolate artesanal envueltos individualmente en celofán cristal con elegantes moños de colores. Listos para sorprender.')">Ver
+                            más</button>
+                    </div>
+                </article>
+            </div>
+
+            <div class="sub-category-header">
+                <h3>Figuras de Chocolate</h3>
+            </div>
+            <div class="product-grid">
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="pascuas/pascua10.jpeg" alt="Huevos Conejito">
+                    </div>
+                    <div class="product-info">
+                        <h3>Huevos Conejito</h3>
+                        <p>Huevos de chocolate blanco con caritas de conejito en colores pasteles.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Huevos Conejito', 'pascuas/pascua10.jpeg', 'Los favoritos de los más chicos. Huevos de chocolate blanco con adorables caritas de conejito, disponibles en verde y lila. Pintados a mano con manteca de cacao coloreada.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="pascuas/pascua1.jpeg" alt="Trío de Monstruitos">
+                    </div>
+                    <div class="product-info">
+                        <h3>Trío Monstruitos</h3>
+                        <p>Adorables figuras de monstruitos-conejito en rosa, verde y celeste.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Trío Monstruitos', 'pascuas/pascua1.jpeg', 'Los personajes más tiernos de esta Pascua. Tres figuras de chocolate pintadas a mano con manteca de cacao en vibrantes colores rosa, verde y celeste. Ideales para los más pequeños.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="pascuas/pascua4.jpeg" alt="Monstruito Rosa">
+                    </div>
+                    <div class="product-info">
+                        <h3>Monstruito Rosa</h3>
+                        <p>Figura individual de monstruito-conejito en chocolate rosa.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Monstruito Rosa', 'pascuas/pascua4.jpeg', 'Nuestra figura estrella en versión individual. Un adorable monstruito-conejito moldeado en chocolate y pintado a mano en un encantador tono rosa. Perfecto para regalar.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="pascuas/pascua6.jpeg" alt="Conejito de Chocolate Blanco">
+                    </div>
+                    <div class="product-info">
+                        <h3>Conejito Clásico</h3>
+                        <p>Tierno conejito de chocolate blanco con jardinero rosa pintado a mano.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Conejito Clásico', 'pascuas/pascua6.jpeg', 'El clásico conejito de Pascua en su versión más dulce. Elaborado en chocolate blanco premium y decorado a mano con detalles en rosa y naranja. Un regalo encantador.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="pascuas/pascua3.jpeg" alt="Carpincho Argentino">
+                    </div>
+                    <div class="product-info">
+                        <h3>Carpincho Argentino</h3>
+                        <p>Figura de carpincho en chocolate con leche con corazón albiceleste.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Carpincho Argentino', 'pascuas/pascua3.jpeg', 'Nuestra creación más argentina. Un adorable carpincho de chocolate con leche que sostiene un corazón con los colores de la bandera argentina. Orgullo nacional en chocolate.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="pascuas/pascua2.jpeg" alt="Copa del Mundo de Chocolate">
+                    </div>
+                    <div class="product-info">
+                        <h3>Copa del Mundo</h3>
+                        <p>Réplica de la copa mundial en chocolate con acabado dorado.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Copa del Mundo', 'pascuas/pascua2.jpeg', 'Para los fanáticos del fútbol. Réplica artesanal de la Copa del Mundo elaborada en chocolate con un impresionante acabado dorado. Disponible en dos tamaños.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="pascuas/pascua9.jpeg" alt="Combo Carpincho y Copa">
+                    </div>
+                    <div class="product-info">
+                        <h3>Combo Campeón</h3>
+                        <p>Carpincho albiceleste junto a la copa mundial en chocolate.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Combo Campeón', 'pascuas/pascua9.jpeg', 'El combo más argentino de estas Pascuas. Nuestro carpincho con corazón albiceleste acompañado de la réplica de la Copa del Mundo en chocolate dorado. El regalo perfecto para el hincha.')">Ver
+                            más</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: CHOCOLATERÍA -->
+    <section id="choc" class="section-padding">
+        <div class="container">
+            <div class="category-header reveal">
+                <h2>Chocolatería</h2>
+            </div>
+            <div class="product-grid">
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1549007994-cb92ca71450a?q=80&w=1000&auto=format&fit=crop"
+                            alt="Bombones">
+                    </div>
+                    <div class="product-info">
+                        <h3>Caja Signature</h3>
+                        <p>Selección de 12 bombones rellenos con autoría propia.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Caja Signature', 'https://images.unsplash.com/photo-1549007994-cb92ca71450a?q=80&w=1000&auto=format&fit=crop', 'Nuestra joya de la corona. La Caja Signature contiene 12 bombones pintados a mano con rellenos que van desde ganache de maracuyá hasta praliné de avellanas tostadas. Una experiencia de lujo para regalar o regalarse.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1623945239962-d4b97d19c122?q=80&w=1000&auto=format&fit=crop"
+                            alt="Trufas">
+                    </div>
+                    <div class="product-info">
+                        <h3>Trufas de Champagne</h3>
+                        <p>Corazón suave infusionado con espumante y baño de oro.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Trufas de Champagne', 'https://images.unsplash.com/photo-1623945239962-d4b97d19c122?q=80&w=1000&auto=format&fit=crop', 'Sofisticación pura. Cada trufa contiene una reducción de Champagne francés que se funde en la boca, terminada con una fina lámina de oro comestible de 24k para el toque definitivo de distinción.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1614088685112-0a760b71a3c8?q=80&w=1000&auto=format&fit=crop"
+                            alt="Tableta">
+                    </div>
+                    <div class="product-info">
+                        <h3>Tableta 80% Cacao</h3>
+                        <p>Chocolate origen único con cristales de sal marina.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Tableta 80% Cacao', 'https://images.unsplash.com/photo-1614088685112-0a760b71a3c8?q=80&w=1000&auto=format&fit=crop', 'Para los verdaderos conocedores. Chocolate de origen único seleccionado por su perfil de notas frutales y terrosas, realzado por cristales de Flor de Sal recolectados a mano.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1548907040-4baa42d10079?q=80&w=1000&auto=format&fit=crop"
+                            alt="Ramas">
+                    </div>
+                    <div class="product-info">
+                        <h3>Chocolate en Rama</h3>
+                        <p>Textura aireada y crujiente, disponible en leche o amargo.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Chocolate en Rama', 'https://images.unsplash.com/photo-1548907040-4baa42d10079?q=80&w=1000&auto=format&fit=crop', 'Una técnica magistral que crea finas láminas de chocolate que crujen al morderlas. Elaboradas a partir del mejor blend de la casa, son un clásico irresistible que nunca pasa de moda.')">Ver
+                            más</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: MASAS SECAS -->
+    <section id="masas" class="section-padding section-dark">
+        <div class="container">
+            <div class="category-header reveal">
+                <h2>Masas Secas</h2>
+            </div>
+            <div class="product-grid">
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="masasecas/masa1.jpg" alt="Masa Seca 1">
+                    </div>
+                    <div class="product-info">
+                        <h3>Delicias de Vainilla</h3>
+                        <p>Finas masas secas con aroma natural a vainilla Bourbon.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Delicias de Vainilla', 'masasecas/masa1.jpg', 'Nuestras masas secas de vainilla son el acompañamiento perfecto para un té de media tarde. Textura suave que se deshace en la boca con un sutil aroma natural.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="masasecas/masa2.jpg" alt="Masa Seca 2">
+                    </div>
+                    <div class="product-info">
+                        <h3>Corazones de Glaseado</h3>
+                        <p>Bocados dulces terminados con un glaseado artesanal.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Corazones de Glaseado', 'masasecas/masa2.jpg', 'Delicadas formas decoradas a mano con un glaseado real que aporta el punto justo de dulzor y una presentación impecable.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="masasecas/masa3.jpg" alt="Masa Seca 3">
+                    </div>
+                    <div class="product-info">
+                        <h3>Cookies de Autor</h3>
+                        <p>Selección de nuestras galletas con trozos de chocolate.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Cookies de Autor', 'masasecas/masa3.jpg', 'Una receta exclusiva que combina una masa mantecosa con los mejores chips de chocolate de nuestra chocolatería.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="masasecas/masa4.jpg" alt="Masa Seca 4">
+                    </div>
+                    <div class="product-info">
+                        <h3>Lunitas de Almendra</h3>
+                        <p>Masas tradicionales con suave sabor a almendras tostadas.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Lunitas de Almendra', 'masasecas/masa4.jpg', 'Bocados clásicos de la pastelería europea, elaborados con harina de almendras seleccionadas para una textura única.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="masasecas/masa5.jpg" alt="Masa Seca 5">
+                    </div>
+                    <div class="product-info">
+                        <h3>Mix de Masas Finas</h3>
+                        <p>Variedad de nuestras mejores piezas en una sola presentación.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Mix de Masas Finas', 'masasecas/masa5.jpg', 'La opción ideal para degustar nuestra variedad. Incluye piezas seleccionadas por nuestro maestro pastelero.')">Ver
+                            más</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: ALFAJORES -->
+    <section id="alfajores" class="section-padding">
+        <div class="container">
+            <div class="category-header reveal">
+                <h2>Alfajores</h2>
+            </div>
+            <div class="product-grid">
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="alfajores/alfa.png" alt="Alfajor Especial">
+                    </div>
+                    <div class="product-info">
+                        <h3>Alfajor de Autor</h3>
+                        <p>Una pieza única con el sello distintivo de nuestra casa.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Alfajor de Autor', 'alfajores/alfa.png', 'La expresión máxima de nuestra pasión por lo dulce. Un alfajor equilibrado, con ingredientes seleccionados y una textura que sorprende en cada mordida.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="alfajores/minialfa.png" alt="Mini Alfajores">
+                    </div>
+                    <div class="product-info">
+                        <h3>Mini Alfajores Boutique</h3>
+                        <p>Bocados artesanales con el equilibrio justo de sabor.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Mini Alfajores Boutique', 'alfajores/minialfa.png', 'Nuestros clásicos en formato mini. Ideales para eventos, mesas dulces o simplemente para disfrutar de un bocado gourmet en cualquier momento.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="alfajores/minialfa1.png" alt="Mini Alfajores Premium">
+                    </div>
+                    <div class="product-info">
+                        <h3>Colección Mini Premium</h3>
+                        <p>Variedad de texturas y sabores en formato miniatura.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Colección Mini Premium', 'alfajores/minialfa1.png', 'Una selección cuidada de nuestros mejores alfajores en versión mini. Perfectos para degustar toda nuestra variedad en una sola experiencia.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="alfajores/alfacaja12.png" alt="Caja Alfajores 12">
+                    </div>
+                    <div class="product-info">
+                        <h3>Caja x12 Mixta</h3>
+                        <p>Selección especial para compartir o regalar.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Caja x12 Mixta', 'alfajores/alfacaja12.png', 'Nuestra mejor selección reunida en una caja de 12 unidades. Ideal para regalos corporativos, eventos familiares o simplemente para tener variedad en casa.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="alfajores/alfacaja12-1.png" alt="Caja Alfajores Premium">
+                    </div>
+                    <div class="product-info">
+                        <h3>Caja Degustación</h3>
+                        <p>Variedad premium de nuestras mejores piezas.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Caja Degustación', 'alfajores/alfacaja12-1.png', 'Una variante exclusiva de nuestras mejores piezas en formato de 12 unidades, seleccionadas por nuestro maestro pastelero para ofrecer un viaje de sabores.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="alfajores/minicaja6.png" alt="Mini Caja x6">
+                    </div>
+                    <div class="product-info">
+                        <h3>Mini Caja Regalo x6</h3>
+                        <p>El detalle perfecto en una presentación elegante.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Mini Caja Regalo x6', 'alfajores/minicaja6.png', 'Presentación compacta y sofisticada de 6 unidades. El detalle ideal para agasajar a alguien especial con la calidad de SOS Bombones.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="alfajores/minicaja12.png" alt="Mini Caja x12">
+                    </div>
+                    <div class="product-info">
+                        <h3>Caja Mini Mixta x12</h3>
+                        <p>Versión miniatura de nuestros clásicos favoritos.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Caja Mini Mixta x12', 'alfajores/minicaja12.png', 'Nuestras mejores recetas en formato mini. 12 bocados perfectos para disfrutar en cualquier momento del día sin culpas.')">Ver
+                            más</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- SECCIÓN: TORTAS -->
+    <section id="tortas" class="section-padding section-dark">
+        <div class="container">
+            <div class="category-header reveal">
+                <h2>Nuestras Tortas</h2>
+            </div>
+
+            <!-- Subcategoría 1: Clásicas -->
+            <div class="sub-category-header" id="clasicas">
+                <h3>Clásicas</h3>
+            </div>
+            <div class="product-grid">
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/2.jpeg" alt="Torta Clásica 2">
+                    </div>
+                    <div class="product-info">
+                        <h3>Delicia Suprema</h3>
+                        <p>Una combinación única de texturas y sabores clásicos.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Delicia Suprema', 'Tortas/2.jpeg', 'Nuestra Torta Delicia Suprema es un tributo a la repostería clásica. Elaborada con ingredientes de la más alta calidad, ofrece una experiencia sensorial única con capas perfectamente equilibradas y una decoración artesanal que cautiva desde el primer vistazo.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/3.jpeg" alt="Torta Imperial">
+                    </div>
+                    <div class="product-info">
+                        <h3>Torta Imperial</h3>
+                        <p>Torta de bizcochuelo de vainilla con dulce de leche y crema chantilly decorada con
+                            merengue</p>
+                        <button class="btn-more"
+                            onclick="openModal('Torta Imperial', 'Tortas/3.jpeg', 'Torta de bizcochuelo de vainilla con dulce de leche y crema chantilly decorada con merengue')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/4.jpeg" alt="Torta Clásica 4">
+                    </div>
+                    <div class="product-info">
+                        <h3>Tentación de Cacao</h3>
+                        <p>Torta de chocolate relleno de crema bariloche decorada con la misma crema</p>
+                        <button class="btn-more"
+                            onclick="openModal('Tentación de Cacao', 'Tortas/4.jpeg', 'Torta de chocolate relleno de crema bariloche decorada con la misma crema')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/6.jpeg" alt="Torta Clásica 6">
+                    </div>
+                    <div class="product-info">
+                        <h3>Encanto de Vainilla</h3>
+                        <p>Clásico infaltable con un toque moderno y elegante.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Encanto de Vainilla', 'Tortas/6.jpeg', 'La pureza de la vainilla Bourbon se siente en cada capa. Acompañada de una textura cremosa y un diseño minimalista, esta torta redefine la elegancia de lo simple.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/8.jpeg" alt="Torta Clásica 8">
+                    </div>
+                    <div class="product-info">
+                        <h3>Sinfonía Dulce</h3>
+                        <p>Torta de chocolate relleno de crema bariloche decorada con la misma crema</p>
+                        <button class="btn-more"
+                            onclick="openModal('Sinfonía Dulce', 'Tortas/8.jpeg', 'Torta de chocolate relleno de crema bariloche decorada con la misma crema')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/9.jpeg" alt="Torta Clásica 9">
+                    </div>
+                    <div class="product-info">
+                        <h3>Tesoro Artesanal</h3>
+                        <p>Torta de bizcochuelo de vainilla con dulce de leche and crema chantilly decorada con
+                            merengue</p>
+                        <button class="btn-more"
+                            onclick="openModal('Tesoro Artesanal', 'Tortas/9.jpeg', 'Torta de bizcochuelo de vainilla con dulce de leche and crema chantilly decorada con merengue')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/12.jpeg" alt="Torta Clásica 12">
+                    </div>
+                    <div class="product-info">
+                        <h3>Clásico Premium</h3>
+                        <p>El sabor de siempre con una presentación impecable.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Clásico Premium', 'Tortas/12.jpeg', 'Nuestra versión Platinum de las tortas clásicas. Presentación de gala y rellenos reforzados para ser el centro de atención de cualquier mesa de celebración.')">Ver
+                            más</button>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Subcategoría 3: Personalizadas -->
+            <div class="sub-category-header" id="personales">
+                <h3>Personalizadas</h3>
+            </div>
+            <div class="product-grid">
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/1.jpeg" alt="Torta Evento 1">
+                    </div>
+                    <div class="product-info">
+                        <h3>Gran Gala</h3>
+                        <p>Torta para eventos bizcochuelo y relleno a elección</p>
+                        <button class="btn-more"
+                            onclick="openModal('Gran Gala', 'Tortas/1.jpeg', 'Torta para eventos bizcochuelo y relleno a elección')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/7.jpeg" alt="Torta Evento 7">
+                    </div>
+                    <div class="product-info">
+                        <h3>Brindis Dorado</h3>
+                        <p>Torta de chocolate relleno de crema bariloche decorada con la misma crema</p>
+                        <button class="btn-more"
+                            onclick="openModal('Brindis Dorado', 'Tortas/7.jpeg', 'Torta de chocolate relleno de crema bariloche decorada con la misma crema')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/13.jpeg" alt="Torta Evento 13">
+                    </div>
+                    <div class="product-info">
+                        <h3>Celebración Élite</h3>
+                        <p>Torta decorada de butecreme bizcochuelo de vainilla rellena de crema de dulce de leche y
+                            crema bariloche</p>
+                        <button class="btn-more"
+                            onclick="openModal('Celebración Élite', 'Tortas/13.jpeg', 'Torta decorada de butecreme bizcochuelo de vainilla rellena de crema de dulce de leche y crema bariloche')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/10.jpeg" alt="Torta Personalizada 10">
+                    </div>
+                    <div class="product-info">
+                        <h3>Creación Exclusiva</h3>
+                        <p>Torta personalizada bizcochuelo y relleno a elección</p>
+                        <button class="btn-more"
+                            onclick="openModal('Creación Exclusiva', 'Tortas/10.jpeg', 'Torta personalizada bizcochuelo y relleno a elección')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/11.jpeg" alt="Torta Personalizada 11">
+                    </div>
+                    <div class="product-info">
+                        <h3>Sueños en Azúcar</h3>
+                        <p>Torta personalizada bizcochuelo y relleno a elección</p>
+                        <button class="btn-more"
+                            onclick="openModal('Sueños en Azúcar', 'Tortas/11.jpeg', 'Torta personalizada bizcochuelo y relleno a elección')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/5.jpeg" alt="Torta Personalizada 5">
+                    </div>
+                    <div class="product-info">
+                        <h3>Magia Festiva</h3>
+                        <p>Torta personalizada bizcochuelo y relleno a elección</p>
+                        <button class="btn-more"
+                            onclick="openModal('Magia Festiva', 'Tortas/5.jpeg', 'Torta personalizada bizcochuelo y relleno a elección')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/torta_love.png" alt="Torta Amor Infinito">
+                    </div>
+                    <div class="product-info">
+                        <h3>Amor Infinito</h3>
+                        <p>Torta artesanal personalizada con ositos de chocolate y mensaje especial.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Amor Infinito', 'Tortas/torta_love.png', 'Perfecta para aniversarios y declaraciones especiales. Nuestros ositos de chocolate artesanales descansan sobre una base de suave bizcocho artesanal.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/14.jpeg" alt="Torta Personalizada 14">
+                    </div>
+                    <div class="product-info">
+                        <h3>Diseño Vanguardista</h3>
+                        <p>Torta decorada con butecreme, bizcochuelo de vainilla rellena de crema chantilly</p>
+                        <button class="btn-more"
+                            onclick="openModal('Diseño Vanguardista', 'Tortas/14.jpeg', 'Torta decorada con butecreme, bizcochuelo de vainilla rellena de crema chantilly')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tortas/15.jpeg" alt="Torta Personalizada 15">
+                    </div>
+                    <div class="product-info">
+                        <h3>Esencia Gourmet</h3>
+                        <p>Torta vintage bizcochuelo de vainilla y chocolate rellena de dulce de leche y crema de
+                            cafe</p>
+                        <button class="btn-more"
+                            onclick="openModal('Esencia Gourmet', 'Tortas/15.jpeg', 'Torta vintage bizcochuelo de vainilla y chocolate rellena de dulce de leche y crema de cafe')">Ver
+                            más</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: TARTAS -->
+    <section id="tartas" class="section-padding">
+        <div class="container">
+            <div class="category-header reveal">
+                <h2>Nuestras Tartas</h2>
+            </div>
+            <div class="product-grid">
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tartas/tarat1.jpg" alt="Tarta 1">
+                    </div>
+                    <div class="product-info">
+                        <h3>Tarta de Frutillas</h3>
+                        <p>Base de masa quebrada con crema pastelera and frutillas frescas.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Tarta de Frutillas', 'Tartas/tarat1.jpg', 'Delicada tarta con base de masa sablée, rellena con una suave crema pastelera artesanal and cubierta con las mejores frutillas de estación.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tartas/tarta2.jpg" alt="Tarta 2">
+                    </div>
+                    <div class="product-info">
+                        <h3>Lemon Pie</h3>
+                        <p>Clásico merengue italiano con un corazón cítrico impecable.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Lemon Pie', 'Tartas/tarta2.jpg', 'Nuestra versión del clásico Lemon Pie. Crema de limón natural con el equilibrio justo de acidez and dulzor, coronada con merengue italiano flambeado.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tartas/tarta3.jpg" alt="Tarta 3">
+                    </div>
+                    <div class="product-info">
+                        <h3>Torta de Coco and DDL</h3>
+                        <p>La combinación perfecta de dulce de leche and coco tostado.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Torta de Coco and DDL', 'Tartas/tarta3.jpg', 'Una tarta tradicional que nunca falla. Base crocante, abundante dulce de leche repostero and una cubierta generosa de coco rallado premium.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tartas/tarta4.jpg" alt="Tarta 4">
+                    </div>
+                    <div class="product-info">
+                        <h3>Crumble de Manzana</h3>
+                        <p>Manzanas horneadas con canela and un crumble súper crocante.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Crumble de Manzana', 'Tartas/tarta4.jpg', 'Manzanas seleccionadas cocidas en su punto justo con un toque de canela, cubiertas con un crumble de manteca and azúcar que se deshace en la boca.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tartas/tarta5.jpg" alt="Tarta 5">
+                    </div>
+                    <div class="product-info">
+                        <h3>Pastafrola de Membrillo</h3>
+                        <p>El sabor de lo casero con la mejor masa artesanal.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Pastafrola de Membrillo', 'Tartas/tarta5.jpg', 'Masa artesanal suave and tierna rellena con el más sabroso dulce de membrillo. Un clásico infaltable en cualquier merienda.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tartas/tarta6.jpg" alt="Tarta 6">
+                    </div>
+                    <div class="product-info">
+                        <h3>Tarta Toffee</h3>
+                        <p>Chocolate, dulce de leche and un toque de caramelo.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Tarta Toffee', 'Tartas/tarta6.jpg', 'Para los fanáticos del chocolate and el dulce de leche. Base de chocolate, relleno de DDL and una cobertura de ganache de chocolate semiamargo.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tartas/tarta7.jpg" alt="Tarta 7">
+                    </div>
+                    <div class="product-info">
+                        <h3>Tarta de Ricota</h3>
+                        <p>Textura suave and cremosa con un toque de ralladura cítrica.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Tarta de Ricota', 'Tartas/tarta7.jpg', 'Elaborada con ricota fresca de primera calidad, logrando una textura aireada and un sabor delicado que encanta a todos.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tartas/tarta8.jpg" alt="Tarta 8">
+                    </div>
+                    <div class="product-info">
+                        <h3>Orange Pie</h3>
+                        <p>Innovadora crema de naranja natural con merengue.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Orange Pie', 'Tartas/tarta8.jpg', 'Una variante refrescante del Lemon Pie. Crema suave de naranja con un balance cítrico único and merengue artesanal.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tartas/tarta9.jpg" alt="Tarta 9">
+                    </div>
+                    <div class="product-info">
+                        <h3>Tarta de Frutos Rojos</h3>
+                        <p>Mix de arándanos, frambuesas and moras seleccionadas.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Tarta de Frutos Rojos', 'Tartas/tarta9.jpg', 'Explosión de sabor natural. Frutos rojos seleccionados sobre una base de crema que realza la intensidad de cada fruta.')">Ver
+                            más</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="Tartas/tarta19.jpg" alt="Tarta 19">
+                    </div>
+                    <div class="product-info">
+                        <h3>Tarta Especial SOS</h3>
+                        <p>Nuestra creación exclusiva con ingredientes de estación.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Tarta Especial SOS', 'Tartas/tarta19.jpg', 'La tarta de la casa. Combinamos los mejores ingredientes del mercado para crear una pieza única que cambia según la temporada.')">Ver
+                            más</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function scrollCarousel(id, direction) {
+            const carousel = document.getElementById(id);
+            const scrollAmount = carousel.offsetWidth * 0.8;
+            carousel.scrollBy({
+                left: scrollAmount * direction,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+
+    <footer>
+        <div class="container">
+            <h2>Abastécete con lo mejor</h2>
+            <p>Solicite nuestra lista mayorista exclusiva para Cafeterías y Locales.</p>
+            <div style="margin-top: 35px;">
+                <button class="footer-btn">Solicitar Info Comercial</button>
+            </div>
+            <div class="contact-info">
+                <p>📍 Calle Gourmet 123, Ciudad de los Bombones</p>
+                <p>💬 WhatsApp: +54 9 387 685 6022 | 🌐 www.sosbombones.com</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DE DETALLES -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div class="modal-gallery">
+                <img id="modalImg" src="" alt="Producto" onclick="toggleZoom()">
+                <button class="btn-zoom" onclick="toggleZoom()" title="Ampliar imagen">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-details">
+                <h2 id="modalTitle">Nombre del Producto</h2>
+                <p id="modalDesc">Descripción detallada del producto...</p>
+                <a id="modalWS" href="#" target="_blank" class="btn-consultar">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                    </svg>
+                    Consultar por WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(title, img, desc) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalImg').src = img;
+            document.getElementById('modalDesc').innerText = desc;
+
+            // Link de WhatsApp personalizado
+            const message = `Hola SOS Bombones! Me gustaría recibir más información sobre: ${title}`;
+            document.getElementById('modalWS').href = `https://wa.me/5493876856022?text=${encodeURIComponent(message)}`;
+
+            document.getElementById('productModal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Evita scroll de fondo
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            document.querySelector('.modal-gallery').classList.remove('zoomed');
+        }
+
+        function toggleZoom() {
+            document.querySelector('.modal-gallery').classList.toggle('zoomed');
+        }
+
+        // Cerrar al hacer clic fuera del contenido
+        window.onclick = function (event) {
+            const modal = document.getElementById('productModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+    <!-- SCROLL REVEAL ANIMATIONS -->
+    <script>
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        document.querySelectorAll('.product-grid, .product-carousel').forEach(grid => {
+            grid.querySelectorAll('.product-card').forEach((card, i) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(25px)';
+                card.style.transition = `opacity 0.5s ease ${i * 0.1}s, transform 0.5s ease ${i * 0.1}s`;
+            });
+        });
+
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    cardObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.05 });
+
+        document.querySelectorAll('.product-card').forEach(card => cardObserver.observe(card));
+    </script>
+
+    <!-- BOTÓN WHATSAPP FLOTANTE -->
+    <a href="https://wa.me/5493876856022?text=Hola%20SOS%20Bombones!%20Me%20gustar%C3%ADa%20hacer%20una%20consulta."
+        class="whatsapp-float" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+        </svg>
+    </a>
+
+</body>
+
+</html>
