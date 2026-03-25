@@ -7,9 +7,9 @@ export default function handler(req, res) {
         return res.end();
     }
 
-    const imageUrl = img.startsWith('http') ? img : `${siteUrl}/${img}`;
-    const safeTitle = title.replace(/"/g, '&quot;');
-    const safeDesc = (desc || '').replace(/"/g, '&quot;');
+    const imageUrl = img.startsWith('http') ? img : `${siteUrl}/${decodeURIComponent(img)}`;
+    const safeTitle = (title || '').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    const safeDesc = (desc || '').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
     const html = `<!DOCTYPE html>
 <html lang="es">
@@ -18,11 +18,15 @@ export default function handler(req, res) {
     <meta property="og:title" content="${safeTitle} - SOS Bombones">
     <meta property="og:description" content="${safeDesc}">
     <meta property="og:image" content="${imageUrl}">
-    <meta property="og:image:width" content="600">
-    <meta property="og:image:height" content="600">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="800">
     <meta property="og:url" content="${siteUrl}">
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="product">
     <meta property="og:site_name" content="SOS Bombones">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${safeTitle} - SOS Bombones">
+    <meta name="twitter:description" content="${safeDesc}">
+    <meta name="twitter:image" content="${imageUrl}">
     <meta http-equiv="refresh" content="0;url=${siteUrl}">
     <title>${safeTitle} - SOS Bombones</title>
 </head>
