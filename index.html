@@ -2787,12 +2787,8 @@
         function consultarWhatsApp(event) {
             event.preventDefault();
             var title = document.getElementById('modalTitle').innerText;
-            var desc = document.getElementById('modalDesc').innerText;
-            var imgSrc = document.getElementById('modalImg').getAttribute('src');
-            var phone = '5493876856022';
-            var productUrl = 'https://catalogo-bombones.vercel.app/api/producto?title=' + encodeURIComponent(title) + '&img=' + encodeURIComponent(imgSrc) + '&desc=' + encodeURIComponent(desc);
-            var message = productUrl + '\nHola SOS Bombones! Quería consultar por *' + title + '*';
-            window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(message), '_blank');
+            var message = 'Hola SOS Bombones! Quería consultar por *' + title + '*';
+            window.open('https://wa.me/5493876856022?text=' + encodeURIComponent(message), '_blank');
         }
 
         function closeModal() {
