@@ -2775,7 +2775,9 @@
             document.getElementById('modalImg').src = img;
             document.getElementById('modalDesc').innerText = desc;
 
-            const message = `Hola SOS Bombones! Me gustaría recibir más información sobre: *${title}*\n\n${desc}`;
+            const imgPath = img.startsWith('http') ? img : encodeURIComponent(img);
+            const productUrl = `https://catalogo-bombones.vercel.app/api/producto?title=${encodeURIComponent(title)}&img=${imgPath}&desc=${encodeURIComponent(desc)}`;
+            const message = `Hola SOS Bombones! Me gustaría recibir más información sobre: *${title}*\n\n${desc}\n\n${productUrl}`;
             document.getElementById('modalWS').href = `https://wa.me/5493876856022?text=${encodeURIComponent(message)}`;
 
             document.getElementById('productModal').classList.add('active');
