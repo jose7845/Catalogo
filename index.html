@@ -2784,51 +2784,15 @@
             document.body.style.overflow = 'hidden';
         }
 
-        async function consultarWhatsApp(event) {
+        function consultarWhatsApp(event) {
             event.preventDefault();
             var title = document.getElementById('modalTitle').innerText;
-            var modalImg = document.getElementById('modalImg');
-            var text = 'Hola SOS Bombones! Quería consultar por *' + title + '*';
+            var desc = document.getElementById('modalDesc').innerText;
+            var imgSrc = document.getElementById('modalImg').getAttribute('src');
             var phone = '5493876856022';
-
-            var blob = await getImageBlob(modalImg);
-            if (blob) {
-                var file = new File([blob], title + '.png', { type: 'image/png' });
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    try {
-                        await navigator.share({ text: text, files: [file] });
-                        return;
-                    } catch (err) {
-                        if (err.name === 'AbortError') return;
-                    }
-                }
-                try {
-                    await navigator.clipboard.write([
-                        new ClipboardItem({ 'image/png': blob })
-                    ]);
-                    showCopyNotice();
-                } catch (err) {}
-            }
-
-            window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(text), '_blank');
-        }
-
-        function getImageBlob(img) {
-            return new Promise(function(resolve) {
-                var canvas = document.createElement('canvas');
-                canvas.width = img.naturalWidth || 400;
-                canvas.height = img.naturalHeight || 400;
-                canvas.getContext('2d').drawImage(img, 0, 0);
-                canvas.toBlob(function(b) { resolve(b); }, 'image/png');
-            });
-        }
-
-        function showCopyNotice() {
-            var notice = document.createElement('div');
-            notice.innerHTML = '📋 Imagen copiada! Pegala en el chat con <b>Ctrl+V</b>';
-            notice.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#25D366;color:#fff;padding:14px 24px;border-radius:12px;font-family:var(--font-sans);font-size:15px;z-index:99999;box-shadow:0 4px 15px rgba(0,0,0,0.3);animation:fadeInUp .3s ease';
-            document.body.appendChild(notice);
-            setTimeout(function() { notice.remove(); }, 4000);
+            var productUrl = 'https://catalogo-bombones.vercel.app/api/producto?title=' + encodeURIComponent(title) + '&img=' + encodeURIComponent(imgSrc) + '&desc=' + encodeURIComponent(desc);
+            var message = productUrl + '\nHola SOS Bombones! Quería consultar por *' + title + '*';
+            window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(message), '_blank');
         }
 
         function closeModal() {
