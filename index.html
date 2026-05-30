@@ -27,7 +27,9 @@
             --gold-light: rgba(212, 163, 115, 0.15);
             --caramel: #B08968;
             --cream: #E6D6C8;
-            --cream-light: #f0e8df;
+            --cream-light: #D4C4B0;
+            --section-bg: #D4C4B0;
+            --card-bg: #E6D6C8;
             --white: #ffffff;
             --gray: #f4f4f4;
             --font-serif: 'Playfair Display', serif;
@@ -98,6 +100,31 @@
 
         .section-padding {
             padding: 90px 0;
+        }
+
+        .section-padding:not(.section-dark):not(.section-novedad) {
+            background-color: var(--section-bg);
+        }
+
+        .section-fx-light {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-fx-light .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-fx-dark {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .section-fx-dark .container {
+            position: relative;
+            z-index: 5;
         }
 
         /* HEADER / COVER CAROUSEL */
@@ -250,17 +277,18 @@
         .nav-sticky {
             position: sticky;
             top: 0;
-            background: rgba(62, 39, 35, 0.95);
+            background: #3E2723;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            padding: 0;
+            padding: 14px 24px;
             z-index: 1000;
             display: flex;
             justify-content: center;
-            gap: 0;
+            align-items: center;
+            gap: 10px;
             overflow-x: auto;
             white-space: nowrap;
-            border-bottom: 1px solid rgba(212, 163, 115, 0.15);
+            border-bottom: 1px solid rgba(212, 163, 115, 0.2);
             scrollbar-width: none;
             -ms-overflow-style: none;
             -webkit-overflow-scrolling: touch;
@@ -271,87 +299,465 @@
         }
 
         .nav-sticky a {
-            color: rgba(255, 255, 255, 0.75);
+            color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 2.5px;
+            letter-spacing: 1.5px;
             transition: all var(--transition);
-            padding: 18px 28px;
-            position: relative;
+            padding: 10px 18px;
             flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 50px;
+            background: transparent;
         }
 
         .nav-sticky a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background: var(--gold);
-            transition: width var(--transition);
+            display: none;
         }
 
         .nav-sticky a:hover {
             color: var(--gold);
+            border-color: var(--gold);
         }
 
-        .nav-sticky a:hover::after {
-            width: 60%;
+        .nav-novedad {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 600 !important;
+            letter-spacing: 1.5px !important;
+            border-color: rgba(212, 163, 115, 0.55);
         }
 
-        .nav-pascua {
-            background: linear-gradient(135deg, #d4a373, #e8c170);
-            color: var(--deep-choco) !important;
-            font-weight: 700 !important;
-            letter-spacing: 2px !important;
-            border-radius: 0;
-            position: relative;
-            overflow: hidden;
-            animation: pascuaPulse 2.5s ease-in-out infinite;
+        .nav-novedad::before {
+            display: none;
         }
 
-        .nav-pascua::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: pascuaShine 3s ease-in-out infinite;
-        }
-
-        .nav-pascua::after {
+        .nav-novedad::after {
             display: none !important;
         }
 
-        .nav-pascua:hover {
-            color: var(--deep-choco) !important;
-            background: linear-gradient(135deg, #e8c170, #f0d48a);
+        .nav-novedad:hover {
+            color: var(--gold) !important;
+            background: transparent;
+            border-color: var(--gold);
         }
 
-        @keyframes pascuaPulse {
-            0%, 100% { box-shadow: inset 0 0 0 0 rgba(232, 193, 112, 0); }
-            50% { box-shadow: inset 0 0 20px 0 rgba(232, 193, 112, 0.15); }
+        /* NOVEDAD SECTION */
+        .section-novedad {
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 10%, rgba(212, 163, 115, 0.18) 0%, transparent 55%),
+                radial-gradient(ellipse 70% 50% at 85% 80%, rgba(176, 137, 104, 0.14) 0%, transparent 50%),
+                linear-gradient(165deg, #1a0f0c 0%, #2d1810 35%, #3E2723 65%, #1f1210 100%);
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
         }
 
-        @keyframes pascuaShine {
-            0% { left: -100%; }
-            50%, 100% { left: 100%; }
+        .section-novedad::before,
+        .section-novedad::after,
+        .section-fx-dark::before,
+        .section-fx-dark::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 4px;
+            z-index: 4;
+            background: linear-gradient(90deg, transparent, #8B6914, #e8c170, #D4A373, #e8c170, #8B6914, transparent);
+            background-size: 200% 100%;
+            animation: novedadBorderFlow 5s linear infinite;
+        }
+
+        .section-novedad::before,
+        .section-fx-dark::before {
+            top: 0;
+            box-shadow: 0 0 24px rgba(232, 193, 112, 0.45);
+        }
+
+        .section-novedad::after,
+        .section-fx-dark::after {
+            bottom: 0;
+            animation-direction: reverse;
+        }
+
+        @keyframes novedadBorderFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .novedad-bg {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .novedad-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.45;
+            animation: novedadGlowDrift 12s ease-in-out infinite;
+        }
+
+        .novedad-glow-1 {
+            width: 420px;
+            height: 420px;
+            top: -120px;
+            left: -80px;
+            background: rgba(212, 163, 115, 0.35);
+        }
+
+        .novedad-glow-2 {
+            width: 360px;
+            height: 360px;
+            bottom: -100px;
+            right: -60px;
+            background: rgba(139, 90, 43, 0.3);
+            animation-delay: -6s;
+        }
+
+        @keyframes novedadGlowDrift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, 20px) scale(1.08); }
+        }
+
+        .novedad-drip {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 48px;
+            z-index: 3;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .novedad-drip span {
+            position: absolute;
+            top: 0;
+            width: 14px;
+            height: 28px;
+            background: linear-gradient(180deg, #4a2c20, #2d1810);
+            border-radius: 0 0 50% 50%;
+            opacity: 0.85;
+            animation: novedadDripFall 3.5s ease-in-out infinite;
+        }
+
+        .novedad-drip span:nth-child(1)  { left: 8%;  animation-delay: 0s;    height: 32px; }
+        .novedad-drip span:nth-child(2)  { left: 18%; animation-delay: 0.6s;  height: 24px; }
+        .novedad-drip span:nth-child(3)  { left: 32%; animation-delay: 1.2s;  height: 36px; }
+        .novedad-drip span:nth-child(4)  { left: 48%; animation-delay: 0.3s;  height: 22px; }
+        .novedad-drip span:nth-child(5)  { left: 62%; animation-delay: 1.8s;  height: 30px; }
+        .novedad-drip span:nth-child(6)  { left: 76%; animation-delay: 0.9s;  height: 26px; }
+        .novedad-drip span:nth-child(7)  { left: 88%; animation-delay: 2.1s;  height: 34px; }
+
+        @keyframes novedadDripFall {
+            0%, 100% { transform: translateY(0) scaleY(1); opacity: 0.7; }
+            50% { transform: translateY(14px) scaleY(1.35); opacity: 1; }
+        }
+
+        .novedad-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .novedad-particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(232, 193, 112, 0.9) 0%, rgba(212, 163, 115, 0.4) 40%, transparent 70%);
+            animation: novedadParticleFall linear infinite;
+        }
+
+        .novedad-particle:nth-child(1)  { width: 6px;  height: 6px;  left: 6%;  animation-duration: 9s;  animation-delay: 0s; }
+        .novedad-particle:nth-child(2)  { width: 4px;  height: 4px;  left: 14%; animation-duration: 11s; animation-delay: 1.5s; }
+        .novedad-particle:nth-child(3)  { width: 8px;  height: 8px;  left: 24%; animation-duration: 8s;  animation-delay: 3s; }
+        .novedad-particle:nth-child(4)  { width: 5px;  height: 5px;  left: 38%; animation-duration: 12s; animation-delay: 0.8s; }
+        .novedad-particle:nth-child(5)  { width: 7px;  height: 7px;  left: 52%; animation-duration: 10s; animation-delay: 2.2s; }
+        .novedad-particle:nth-child(6)  { width: 4px;  height: 4px;  left: 66%; animation-duration: 9.5s; animation-delay: 4s; }
+        .novedad-particle:nth-child(7)  { width: 6px;  height: 6px;  left: 78%; animation-duration: 11s; animation-delay: 1s; }
+        .novedad-particle:nth-child(8)  { width: 5px;  height: 5px;  left: 88%; animation-duration: 8.5s; animation-delay: 2.8s; }
+        .novedad-particle:nth-child(9)  { width: 9px;  height: 9px;  left: 44%; animation-duration: 13s; animation-delay: 5s; }
+        .novedad-particle:nth-child(10) { width: 4px;  height: 4px;  left: 94%; animation-duration: 10s; animation-delay: 3.5s; }
+
+        @keyframes novedadParticleFall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .novedad-deco {
+            position: absolute;
+            pointer-events: none;
+            z-index: 2;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+        }
+
+        .novedad-deco:nth-of-type(1)  { top: 8%;   left: 3%;   font-size: 2.4rem; opacity: 0.55; animation: novedadFloatA 6s ease-in-out infinite 0s; }
+        .novedad-deco:nth-of-type(2)  { top: 14%;  right: 4%;  font-size: 2.8rem; opacity: 0.5;  animation: novedadFloatB 7s ease-in-out infinite 0.5s; }
+        .novedad-deco:nth-of-type(3)  { top: 38%;  left: 2%;   font-size: 2rem;   opacity: 0.45; animation: novedadFloatA 5.5s ease-in-out infinite 1s; }
+        .novedad-deco:nth-of-type(4)  { top: 55%;  right: 3%;  font-size: 2.6rem; opacity: 0.5;  animation: novedadFloatB 6.5s ease-in-out infinite 1.5s; }
+        .novedad-deco:nth-of-type(5)  { bottom: 18%; left: 5%;  font-size: 2.2rem; opacity: 0.45; animation: novedadFloatA 7.5s ease-in-out infinite 0.3s; }
+        .novedad-deco:nth-of-type(6)  { bottom: 12%; right: 6%; font-size: 2.5rem; opacity: 0.55; animation: novedadFloatB 5s ease-in-out infinite 2s; }
+        .novedad-deco:nth-of-type(7)  { top: 22%;  left: 50%;  font-size: 1.8rem; opacity: 0.35; animation: novedadFloatA 8s ease-in-out infinite 2.5s; }
+        .novedad-deco:nth-of-type(8)  { bottom: 28%; right: 12%; font-size: 2rem; opacity: 0.4; animation: novedadFloatB 6s ease-in-out infinite 1.2s; }
+
+        @keyframes novedadFloatA {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-14px) rotate(8deg); }
+        }
+
+        @keyframes novedadFloatB {
+            0%, 100% { transform: translateY(0) rotate(5deg) scale(1); }
+            50% { transform: translateY(12px) rotate(-10deg) scale(1.08); }
+        }
+
+        .novedad-inner {
+            position: relative;
+            z-index: 5;
+        }
+
+        .novedad-banner {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .novedad-badge {
+            display: inline-block;
+            position: relative;
+            background: linear-gradient(135deg, #e8c170, #D4A373, #c9956a);
+            color: var(--deep-choco);
+            font-family: var(--font-sans);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            padding: 11px 32px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px rgba(232, 193, 112, 0.45), 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: novedadBadgePulse 2.5s ease-in-out infinite;
+        }
+
+        .novedad-badge::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 32px;
+            background: linear-gradient(135deg, #fff8e7, #e8c170, #D4A373, #fff8e7);
+            background-size: 300% 300%;
+            z-index: -1;
+            animation: novedadBadgeRing 3s linear infinite;
+        }
+
+        @keyframes novedadBadgeRing {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+        }
+
+        @keyframes novedadBadgePulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(232, 193, 112, 0.35), 0 4px 20px rgba(0, 0, 0, 0.3); }
+            50% { transform: scale(1.03); box-shadow: 0 0 45px rgba(232, 193, 112, 0.55), 0 6px 28px rgba(0, 0, 0, 0.35); }
+        }
+
+        .section-novedad .category-header {
+            margin-bottom: 55px;
+        }
+
+        .section-novedad .category-header h2 {
+            font-size: 3.8rem;
+            background: linear-gradient(120deg, #fff8e7 0%, #e8c170 30%, #fff 50%, #D4A373 70%, #f0d48a 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: novedadTitleShimmer 5s linear infinite;
+            filter: drop-shadow(0 2px 8px rgba(232, 193, 112, 0.25));
+        }
+
+        @keyframes novedadTitleShimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .section-novedad .category-header p {
+            color: rgba(255, 248, 231, 0.72);
+            font-size: 1.12rem;
+            max-width: 560px;
+            margin: 18px auto 0;
+            line-height: 1.75;
+        }
+
+        .section-novedad .sub-category-header h3 {
+            color: #f0d48a;
+            text-shadow: 0 0 20px rgba(232, 193, 112, 0.3);
+        }
+
+        .section-novedad .sub-category-header h3::before,
+        .section-novedad .sub-category-header h3::after {
+            background: linear-gradient(90deg, transparent, #e8c170, transparent);
+            opacity: 0.85;
+            height: 2px;
+        }
+
+        .section-novedad .product-grid {
+            position: relative;
+        }
+
+        .section-novedad .product-grid::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border-radius: 24px;
+            background: radial-gradient(ellipse at center, rgba(212, 163, 115, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .section-novedad .product-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            animation: novedadCardReveal 0.8s ease-out both;
+        }
+
+        .section-novedad .product-card:nth-child(1) { animation-delay: 0.15s; }
+        .section-novedad .product-card:nth-child(2) { animation-delay: 0.3s; }
+        .section-novedad .product-card:nth-child(3) { animation-delay: 0.45s; }
+        .section-novedad .product-card:nth-child(4) { animation-delay: 0.6s; }
+        .section-novedad .product-card:nth-child(5) { animation-delay: 0.75s; }
+        .section-novedad .product-card:nth-child(6) { animation-delay: 0.9s; }
+        .section-novedad .product-card:nth-child(7) { animation-delay: 1.05s; }
+
+        @keyframes novedadCardReveal {
+            from { opacity: 0; transform: translateY(28px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-novedad .product-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(212, 163, 115, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-novedad .product-image {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .section-novedad .product-info {
+            padding: 24px 20px 20px;
+        }
+
+        .section-novedad .product-info h3 {
+            color: var(--white);
+            font-size: 1.3rem;
+        }
+
+        .section-novedad .product-info p {
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .section-novedad .btn-more {
+            border-color: var(--gold);
+            color: var(--gold);
+            border-width: 1.5px;
+            transition: all 0.35s ease;
+        }
+
+        .section-novedad .btn-more:hover {
+            background: var(--gold);
+            color: var(--deep-choco);
+            border-color: var(--gold);
+            box-shadow: none;
+        }
+
+        .section-novedad .card-carousel-dot.active {
+            background: var(--gold);
+            box-shadow: 0 0 8px rgba(212, 163, 115, 0.6);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .section-novedad::before,
+            .section-novedad::after,
+            .section-fx-dark::before,
+            .section-fx-dark::after,
+            .novedad-glow,
+            .novedad-drip span,
+            .novedad-particle,
+            .novedad-deco,
+            .novedad-badge,
+            .novedad-badge::before,
+            .section-novedad .category-header h2,
+            .section-novedad .product-card,
+            .section-pascua > .pascua-deco,
+            .section-deco-wrap .pascua-deco {
+                animation: none !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-novedad .category-header h2 {
+                font-size: 2.6rem;
+            }
+            .section-novedad .category-header p {
+                font-size: 0.95rem;
+            }
+            .novedad-badge {
+                font-size: 0.62rem;
+                letter-spacing: 3px;
+                padding: 9px 22px;
+            }
+            .novedad-deco:nth-of-type(7),
+            .novedad-deco:nth-of-type(8) { display: none; }
+            .novedad-deco { font-size: 1.8rem !important; }
+        }
+
+        @media (max-width: 480px) {
+            .section-novedad .category-header h2 {
+                font-size: 2rem;
+            }
+            .section-novedad .category-header p {
+                font-size: 0.88rem;
+            }
+            .novedad-badge {
+                font-size: 0.58rem;
+                letter-spacing: 2px;
+                padding: 8px 18px;
+            }
+            .section-novedad .product-card {
+                border-radius: var(--radius-md);
+            }
+            .section-novedad .product-image {
+                border-radius: var(--radius-md) var(--radius-md) 0 0;
+            }
+            .novedad-deco:nth-of-type(3),
+            .novedad-deco:nth-of-type(5) { display: none; }
+            .novedad-drip span:nth-child(2),
+            .novedad-drip span:nth-child(5),
+            .novedad-drip span:nth-child(6) { display: none; }
         }
 
         /* PASCUA SPECIAL SECTION */
         .section-pascua {
-            background: #ffffff;
+            background: var(--section-bg);
             position: relative;
             overflow: hidden;
         }
 
-        .section-pascua::before {
+        .section-pascua::before,
+        .section-fx-light::before {
             content: '';
             position: absolute;
             top: 0;
@@ -361,7 +767,8 @@
             background: linear-gradient(90deg, transparent, #D4A373, #e8c170, #D4A373, transparent);
         }
 
-        .section-pascua::after {
+        .section-pascua::after,
+        .section-fx-light::after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -371,51 +778,91 @@
             background: linear-gradient(90deg, transparent, #D4A373, #e8c170, #D4A373, transparent);
         }
 
-        .pascua-deco {
+        .section-pascua > .pascua-deco,
+        .section-deco-wrap .pascua-deco {
             position: absolute;
             pointer-events: none;
             z-index: 0;
         }
 
         /* --- BORDE SUPERIOR (horizontal) --- */
-        .pascua-deco:nth-child(1)  { top: 12px;  left: 5%;   font-size: 2.8rem; opacity: 0.6; animation: floatBig 5s ease-in-out infinite 0s; }
-        .pascua-deco:nth-child(2)  { top: 8px;   left: 18%;  font-size: 2.4rem; opacity: 0.5; animation: floatSpin 6s ease-in-out infinite 0.8s; }
-        .pascua-deco:nth-child(3)  { top: 14px;  left: 32%;  font-size: 2.6rem; opacity: 0.55; animation: floatBig 5.5s ease-in-out infinite 1.5s; }
-        .pascua-deco:nth-child(4)  { top: 10px;  left: 50%;  font-size: 2.3rem; opacity: 0.5; animation: floatSpin 6.5s ease-in-out infinite 0.3s; }
-        .pascua-deco:nth-child(5)  { top: 12px;  left: 65%;  font-size: 2.7rem; opacity: 0.6; animation: floatBig 5.8s ease-in-out infinite 2s; }
-        .pascua-deco:nth-child(6)  { top: 8px;   left: 80%;  font-size: 2.5rem; opacity: 0.5; animation: floatSpin 6s ease-in-out infinite 1.2s; }
-        .pascua-deco:nth-child(7)  { top: 14px;  right: 3%;  font-size: 2.8rem; opacity: 0.55; animation: floatBig 5.2s ease-in-out infinite 0.5s; }
+        .section-pascua > .pascua-deco:nth-child(1),
+        .section-deco-wrap .pascua-deco:nth-child(1)  { top: 12px;  left: 5%;   font-size: 2.8rem; opacity: 0.6; animation: floatBig 5s ease-in-out infinite 0s; }
+        .section-pascua > .pascua-deco:nth-child(2),
+        .section-deco-wrap .pascua-deco:nth-child(2)  { top: 8px;   left: 18%;  font-size: 2.4rem; opacity: 0.5; animation: floatSpin 6s ease-in-out infinite 0.8s; }
+        .section-pascua > .pascua-deco:nth-child(3),
+        .section-deco-wrap .pascua-deco:nth-child(3)  { top: 14px;  left: 32%;  font-size: 2.6rem; opacity: 0.55; animation: floatBig 5.5s ease-in-out infinite 1.5s; }
+        .section-pascua > .pascua-deco:nth-child(4),
+        .section-deco-wrap .pascua-deco:nth-child(4)  { top: 10px;  left: 50%;  font-size: 2.3rem; opacity: 0.5; animation: floatSpin 6.5s ease-in-out infinite 0.3s; }
+        .section-pascua > .pascua-deco:nth-child(5),
+        .section-deco-wrap .pascua-deco:nth-child(5)  { top: 12px;  left: 65%;  font-size: 2.7rem; opacity: 0.6; animation: floatBig 5.8s ease-in-out infinite 2s; }
+        .section-pascua > .pascua-deco:nth-child(6),
+        .section-deco-wrap .pascua-deco:nth-child(6)  { top: 8px;   left: 80%;  font-size: 2.5rem; opacity: 0.5; animation: floatSpin 6s ease-in-out infinite 1.2s; }
+        .section-pascua > .pascua-deco:nth-child(7),
+        .section-deco-wrap .pascua-deco:nth-child(7)  { top: 14px;  right: 3%;  font-size: 2.8rem; opacity: 0.55; animation: floatBig 5.2s ease-in-out infinite 0.5s; }
 
         /* --- BORDE IZQUIERDO (vertical) --- */
-        .pascua-deco:nth-child(8)  { top: 10%;  left: 8px;  font-size: 2.6rem; opacity: 0.55; animation: floatSpin 6s ease-in-out infinite 1s; }
-        .pascua-deco:nth-child(9)  { top: 20%;  left: 12px; font-size: 2.4rem; opacity: 0.5;  animation: floatBig 5.5s ease-in-out infinite 2.2s; }
-        .pascua-deco:nth-child(10) { top: 30%;  left: 6px;  font-size: 2.8rem; opacity: 0.6;  animation: floatSpin 6.5s ease-in-out infinite 0.4s; }
-        .pascua-deco:nth-child(11) { top: 40%;  left: 10px; font-size: 2.5rem; opacity: 0.5;  animation: floatBig 5s ease-in-out infinite 1.8s; }
-        .pascua-deco:nth-child(12) { top: 50%;  left: 8px;  font-size: 2.7rem; opacity: 0.55; animation: floatSpin 6s ease-in-out infinite 0.7s; }
-        .pascua-deco:nth-child(13) { top: 60%;  left: 12px; font-size: 2.3rem; opacity: 0.5;  animation: floatBig 5.8s ease-in-out infinite 2.5s; }
-        .pascua-deco:nth-child(14) { top: 70%;  left: 6px;  font-size: 2.8rem; opacity: 0.6;  animation: floatSpin 5.5s ease-in-out infinite 1.3s; }
-        .pascua-deco:nth-child(15) { top: 80%;  left: 10px; font-size: 2.5rem; opacity: 0.5;  animation: floatBig 6s ease-in-out infinite 0.2s; }
-        .pascua-deco:nth-child(16) { top: 90%;  left: 8px;  font-size: 2.6rem; opacity: 0.55; animation: floatSpin 5.2s ease-in-out infinite 1.6s; }
+        .section-pascua > .pascua-deco:nth-child(8),
+        .section-deco-wrap .pascua-deco:nth-child(8)  { top: 10%;  left: 8px;  font-size: 2.6rem; opacity: 0.55; animation: floatSpin 6s ease-in-out infinite 1s; }
+        .section-pascua > .pascua-deco:nth-child(9),
+        .section-deco-wrap .pascua-deco:nth-child(9)  { top: 20%;  left: 12px; font-size: 2.4rem; opacity: 0.5;  animation: floatBig 5.5s ease-in-out infinite 2.2s; }
+        .section-pascua > .pascua-deco:nth-child(10),
+        .section-deco-wrap .pascua-deco:nth-child(10) { top: 30%;  left: 6px;  font-size: 2.8rem; opacity: 0.6;  animation: floatSpin 6.5s ease-in-out infinite 0.4s; }
+        .section-pascua > .pascua-deco:nth-child(11),
+        .section-deco-wrap .pascua-deco:nth-child(11) { top: 40%;  left: 10px; font-size: 2.5rem; opacity: 0.5;  animation: floatBig 5s ease-in-out infinite 1.8s; }
+        .section-pascua > .pascua-deco:nth-child(12),
+        .section-deco-wrap .pascua-deco:nth-child(12) { top: 50%;  left: 8px;  font-size: 2.7rem; opacity: 0.55; animation: floatSpin 6s ease-in-out infinite 0.7s; }
+        .section-pascua > .pascua-deco:nth-child(13),
+        .section-deco-wrap .pascua-deco:nth-child(13) { top: 60%;  left: 12px; font-size: 2.3rem; opacity: 0.5;  animation: floatBig 5.8s ease-in-out infinite 2.5s; }
+        .section-pascua > .pascua-deco:nth-child(14),
+        .section-deco-wrap .pascua-deco:nth-child(14) { top: 70%;  left: 6px;  font-size: 2.8rem; opacity: 0.6;  animation: floatSpin 5.5s ease-in-out infinite 1.3s; }
+        .section-pascua > .pascua-deco:nth-child(15),
+        .section-deco-wrap .pascua-deco:nth-child(15) { top: 80%;  left: 10px; font-size: 2.5rem; opacity: 0.5;  animation: floatBig 6s ease-in-out infinite 0.2s; }
+        .section-pascua > .pascua-deco:nth-child(16),
+        .section-deco-wrap .pascua-deco:nth-child(16) { top: 90%;  left: 8px;  font-size: 2.6rem; opacity: 0.55; animation: floatSpin 5.2s ease-in-out infinite 1.6s; }
 
         /* --- BORDE DERECHO (vertical) --- */
-        .pascua-deco:nth-child(17) { top: 10%;  right: 8px;  font-size: 2.5rem; opacity: 0.5;  animation: floatBig 6s ease-in-out infinite 0.6s; }
-        .pascua-deco:nth-child(18) { top: 20%;  right: 12px; font-size: 2.7rem; opacity: 0.55; animation: floatSpin 5.5s ease-in-out infinite 2s; }
-        .pascua-deco:nth-child(19) { top: 30%;  right: 6px;  font-size: 2.4rem; opacity: 0.5;  animation: floatBig 6.5s ease-in-out infinite 1.1s; }
-        .pascua-deco:nth-child(20) { top: 40%;  right: 10px; font-size: 2.8rem; opacity: 0.6;  animation: floatSpin 5s ease-in-out infinite 0.9s; }
-        .pascua-deco:nth-child(21) { top: 50%;  right: 8px;  font-size: 2.3rem; opacity: 0.5;  animation: floatBig 5.8s ease-in-out infinite 2.3s; }
-        .pascua-deco:nth-child(22) { top: 60%;  right: 12px; font-size: 2.6rem; opacity: 0.55; animation: floatSpin 6s ease-in-out infinite 0.5s; }
-        .pascua-deco:nth-child(23) { top: 70%;  right: 6px;  font-size: 2.8rem; opacity: 0.6;  animation: floatBig 5.2s ease-in-out infinite 1.7s; }
-        .pascua-deco:nth-child(24) { top: 80%;  right: 10px; font-size: 2.5rem; opacity: 0.5;  animation: floatSpin 6.5s ease-in-out infinite 0.3s; }
-        .pascua-deco:nth-child(25) { top: 90%;  right: 8px;  font-size: 2.7rem; opacity: 0.55; animation: floatBig 5.5s ease-in-out infinite 2.6s; }
+        .section-pascua > .pascua-deco:nth-child(17),
+        .section-deco-wrap .pascua-deco:nth-child(17) { top: 10%;  right: 8px;  font-size: 2.5rem; opacity: 0.5;  animation: floatBig 6s ease-in-out infinite 0.6s; }
+        .section-pascua > .pascua-deco:nth-child(18),
+        .section-deco-wrap .pascua-deco:nth-child(18) { top: 20%;  right: 12px; font-size: 2.7rem; opacity: 0.55; animation: floatSpin 5.5s ease-in-out infinite 2s; }
+        .section-pascua > .pascua-deco:nth-child(19),
+        .section-deco-wrap .pascua-deco:nth-child(19) { top: 30%;  right: 6px;  font-size: 2.4rem; opacity: 0.5;  animation: floatBig 6.5s ease-in-out infinite 1.1s; }
+        .section-pascua > .pascua-deco:nth-child(20),
+        .section-deco-wrap .pascua-deco:nth-child(20) { top: 40%;  right: 10px; font-size: 2.8rem; opacity: 0.6;  animation: floatSpin 5s ease-in-out infinite 0.9s; }
+        .section-pascua > .pascua-deco:nth-child(21),
+        .section-deco-wrap .pascua-deco:nth-child(21) { top: 50%;  right: 8px;  font-size: 2.3rem; opacity: 0.5;  animation: floatBig 5.8s ease-in-out infinite 2.3s; }
+        .section-pascua > .pascua-deco:nth-child(22),
+        .section-deco-wrap .pascua-deco:nth-child(22) { top: 60%;  right: 12px; font-size: 2.6rem; opacity: 0.55; animation: floatSpin 6s ease-in-out infinite 0.5s; }
+        .section-pascua > .pascua-deco:nth-child(23),
+        .section-deco-wrap .pascua-deco:nth-child(23) { top: 70%;  right: 6px;  font-size: 2.8rem; opacity: 0.6;  animation: floatBig 5.2s ease-in-out infinite 1.7s; }
+        .section-pascua > .pascua-deco:nth-child(24),
+        .section-deco-wrap .pascua-deco:nth-child(24) { top: 80%;  right: 10px; font-size: 2.5rem; opacity: 0.5;  animation: floatSpin 6.5s ease-in-out infinite 0.3s; }
+        .section-pascua > .pascua-deco:nth-child(25),
+        .section-deco-wrap .pascua-deco:nth-child(25) { top: 90%;  right: 8px;  font-size: 2.7rem; opacity: 0.55; animation: floatBig 5.5s ease-in-out infinite 2.6s; }
 
         /* --- BORDE INFERIOR (horizontal) --- */
-        .pascua-deco:nth-child(26) { bottom: 12px; left: 4%;   font-size: 2.6rem; opacity: 0.55; animation: floatSpin 5.5s ease-in-out infinite 1s; }
-        .pascua-deco:nth-child(27) { bottom: 8px;  left: 17%;  font-size: 2.8rem; opacity: 0.6;  animation: floatBig 6s ease-in-out infinite 0.4s; }
-        .pascua-deco:nth-child(28) { bottom: 14px; left: 33%;  font-size: 2.4rem; opacity: 0.5;  animation: floatSpin 5.8s ease-in-out infinite 2.1s; }
-        .pascua-deco:nth-child(29) { bottom: 10px; left: 48%;  font-size: 2.7rem; opacity: 0.55; animation: floatBig 5s ease-in-out infinite 0.7s; }
-        .pascua-deco:nth-child(30) { bottom: 12px; left: 63%;  font-size: 2.5rem; opacity: 0.5;  animation: floatSpin 6.5s ease-in-out infinite 1.4s; }
-        .pascua-deco:nth-child(31) { bottom: 8px;  left: 78%;  font-size: 2.8rem; opacity: 0.6;  animation: floatBig 5.2s ease-in-out infinite 0.2s; }
-        .pascua-deco:nth-child(32) { bottom: 14px; right: 4%;  font-size: 2.6rem; opacity: 0.55; animation: floatSpin 6s ease-in-out infinite 1.9s; }
+        .section-pascua > .pascua-deco:nth-child(26),
+        .section-deco-wrap .pascua-deco:nth-child(26) { bottom: 12px; left: 4%;   font-size: 2.6rem; opacity: 0.55; animation: floatSpin 5.5s ease-in-out infinite 1s; }
+        .section-pascua > .pascua-deco:nth-child(27),
+        .section-deco-wrap .pascua-deco:nth-child(27) { bottom: 8px;  left: 17%;  font-size: 2.8rem; opacity: 0.6;  animation: floatBig 6s ease-in-out infinite 0.4s; }
+        .section-pascua > .pascua-deco:nth-child(28),
+        .section-deco-wrap .pascua-deco:nth-child(28) { bottom: 14px; left: 33%;  font-size: 2.4rem; opacity: 0.5;  animation: floatSpin 5.8s ease-in-out infinite 2.1s; }
+        .section-pascua > .pascua-deco:nth-child(29),
+        .section-deco-wrap .pascua-deco:nth-child(29) { bottom: 10px; left: 48%;  font-size: 2.7rem; opacity: 0.55; animation: floatBig 5s ease-in-out infinite 0.7s; }
+        .section-pascua > .pascua-deco:nth-child(30),
+        .section-deco-wrap .pascua-deco:nth-child(30) { bottom: 12px; left: 63%;  font-size: 2.5rem; opacity: 0.5;  animation: floatSpin 6.5s ease-in-out infinite 1.4s; }
+        .section-pascua > .pascua-deco:nth-child(31),
+        .section-deco-wrap .pascua-deco:nth-child(31) { bottom: 8px;  left: 78%;  font-size: 2.8rem; opacity: 0.6;  animation: floatBig 5.2s ease-in-out infinite 0.2s; }
+        .section-pascua > .pascua-deco:nth-child(32),
+        .section-deco-wrap .pascua-deco:nth-child(32) { bottom: 14px; right: 4%;  font-size: 2.6rem; opacity: 0.55; animation: floatSpin 6s ease-in-out infinite 1.9s; }
+
+        .section-deco-wrap {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
 
         @keyframes floatBig {
             0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -435,14 +882,19 @@
         }
 
         @media (max-width: 768px) {
-            .pascua-deco { font-size: 1.8rem !important; }
-            .pascua-deco:nth-child(2),
-            .pascua-deco:nth-child(4),
-            .pascua-deco:nth-child(6) { display: none; }
+            .section-pascua > .pascua-deco,
+            .section-deco-wrap .pascua-deco { font-size: 1.8rem !important; }
+            .section-pascua > .pascua-deco:nth-child(2),
+            .section-deco-wrap .pascua-deco:nth-child(2),
+            .section-pascua > .pascua-deco:nth-child(4),
+            .section-deco-wrap .pascua-deco:nth-child(4),
+            .section-pascua > .pascua-deco:nth-child(6),
+            .section-deco-wrap .pascua-deco:nth-child(6) { display: none; }
         }
 
         @media (max-width: 480px) {
-            .pascua-deco { font-size: 1.5rem !important; }
+            .section-pascua > .pascua-deco,
+            .section-deco-wrap .pascua-deco { font-size: 1.5rem !important; }
         }
 
         .pascua-banner {
@@ -694,7 +1146,7 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: var(--white);
+            background: var(--card-bg);
             color: var(--deep-choco);
             border: 1px solid rgba(62, 39, 35, 0.1);
             width: 44px;
@@ -756,7 +1208,7 @@
 
         /* CARD DESIGN */
         .product-card {
-            background: var(--white);
+            background: var(--card-bg);
             border: 1px solid rgba(62, 39, 35, 0.06);
             border-radius: var(--radius-md);
             padding: 0;
@@ -795,6 +1247,137 @@
 
         .product-card:hover .product-image img {
             transform: scale(1.05);
+        }
+
+        .product-image-carousel {
+            display: block;
+        }
+
+        .product-image-carousel .card-image-track {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .product-image-carousel .card-image-track img {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: none;
+        }
+
+        .product-card:hover .product-image-carousel .card-image-track img {
+            transform: none;
+        }
+
+        .card-carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 5;
+        }
+
+        .card-carousel-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid rgba(62, 39, 35, 0.2);
+            cursor: pointer;
+            transition: background 0.25s ease, transform 0.25s ease;
+        }
+
+        .card-carousel-dot.active {
+            background: var(--gold);
+            transform: scale(1.15);
+        }
+
+        .card-carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 6;
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--deep-choco);
+            font-size: 1.15rem;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transition: opacity 0.25s ease, background 0.25s ease;
+        }
+
+        .product-image-carousel:hover .card-carousel-arrow {
+            opacity: 1;
+        }
+
+        .card-carousel-arrow:hover {
+            background: var(--gold);
+            color: var(--white);
+        }
+
+        .card-carousel-prev {
+            left: 8px;
+        }
+
+        .card-carousel-next {
+            right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .card-carousel-arrow {
+                display: none !important;
+            }
+        }
+
+        .modal-carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 25;
+            width: 45px;
+            height: 45px;
+            background: rgba(230, 214, 200, 0.95);
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            color: var(--deep-choco);
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: background 0.25s ease, color 0.25s ease;
+        }
+
+        .modal-gallery.has-modal-nav .modal-carousel-arrow {
+            display: flex;
+        }
+
+        .modal-carousel-arrow:hover {
+            background: var(--card-bg);
+            color: var(--gold);
+        }
+
+        .modal-carousel-prev {
+            left: 16px;
+        }
+
+        .modal-carousel-next {
+            right: 16px;
         }
 
         @media (max-width: 480px) {
@@ -885,7 +1468,7 @@
         }
 
         .modal-content {
-            background: var(--white);
+            background: var(--card-bg);
             max-width: 95vw;
             width: fit-content;
             height: 85vh;
@@ -910,7 +1493,7 @@
             right: 20px;
             width: 44px;
             height: 44px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(230, 214, 200, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 50%;
             display: flex;
@@ -933,7 +1516,7 @@
 
         .modal-gallery {
             flex: 0 1 auto;
-            background: #fff;
+            background: var(--section-bg);
             position: relative;
             display: flex;
             justify-content: center;
@@ -960,7 +1543,7 @@
             right: 20px;
             width: 45px;
             height: 45px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(230, 214, 200, 0.95);
             border: 1px solid #ddd;
             border-radius: 50%;
             display: flex;
@@ -975,7 +1558,7 @@
 
         .btn-zoom:hover {
             transform: scale(1.1);
-            background: #fff;
+            background: var(--card-bg);
             color: var(--gold);
         }
 
@@ -1052,7 +1635,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background: var(--white);
+            background: var(--card-bg);
             position: relative;
             overflow-y: auto;
         }
@@ -1148,7 +1731,7 @@
                 flex: none;
                 height: 45vh;
                 height: 45dvh;
-                background: #fff;
+                background: var(--section-bg);
             }
 
             .modal-gallery img {
@@ -1223,7 +1806,7 @@
             .modal-gallery {
                 height: 42vh;
                 height: 42dvh;
-                background: #fff;
+                background: var(--section-bg);
             }
 
             .modal-details {
@@ -1249,7 +1832,7 @@
             .modal-gallery {
                 height: 40vh;
                 height: 40dvh;
-                background: #fff;
+                background: var(--section-bg);
             }
 
             .modal-gallery img {
@@ -1321,7 +1904,7 @@
             position: relative;
         }
 
-        .section-dark::before {
+        .section-dark:not(.section-fx-dark)::before {
             content: '';
             position: absolute;
             top: 0;
@@ -1394,9 +1977,9 @@
 
         /* FOOTER / CALL TO ACTION */
         footer {
-            background: var(--dark-choco);
-            color: var(--white);
-            padding: 80px 0 50px;
+            background: linear-gradient(180deg, #3E2723 0%, #2d1a16 100%);
+            color: var(--cream);
+            padding: 72px 0 48px;
             text-align: center;
             position: relative;
         }
@@ -1408,58 +1991,75 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            opacity: 0.4;
+            background: linear-gradient(90deg, transparent, rgba(212, 163, 115, 0.45), transparent);
         }
 
-        footer h2 {
-            font-family: var(--font-serif);
-            font-size: 2.4rem;
-            margin-bottom: 0.8rem;
-            color: var(--gold);
-        }
-
-        footer > .container > p {
-            font-size: 1.05rem;
-            opacity: 0.7;
-            max-width: 500px;
+        .footer-cta-main {
+            max-width: 560px;
             margin: 0 auto;
-            line-height: 1.7;
         }
 
-        .contact-info {
-            font-size: 0.85rem;
-            opacity: 0.5;
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        .footer-cta-main h2 {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #E6D6C8;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
         }
 
-        .contact-info p {
-            margin-bottom: 5px;
+        .footer-cta-main > p {
+            font-family: var(--font-sans);
+            font-size: 1.02rem;
+            color: rgba(230, 214, 200, 0.88);
+            line-height: 1.75;
+            margin: 0 auto 2rem;
         }
 
-        .footer-btn {
-            display: inline-block;
-            background: var(--gold);
+        .footer-btn-wa {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #E6C9A8 0%, #D4A373 100%);
             border: none;
             color: var(--deep-choco);
-            padding: 16px 45px;
+            padding: 16px 36px;
             font-family: var(--font-sans);
             font-weight: 700;
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             text-transform: uppercase;
             letter-spacing: 2px;
+            text-decoration: none;
             cursor: pointer;
             border-radius: 50px;
             transition: all var(--transition);
-            box-shadow: 0 8px 25px rgba(212, 163, 115, 0.25);
+            box-shadow:
+                0 8px 28px rgba(212, 163, 115, 0.35),
+                0 0 0 1px rgba(255, 255, 255, 0.08) inset;
         }
 
-        .footer-btn:hover {
+        .footer-btn-wa:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(212, 163, 115, 0.35);
-            background: #e0b48a;
+            box-shadow:
+                0 14px 36px rgba(212, 163, 115, 0.45),
+                0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+            background: linear-gradient(135deg, #F0D4B0 0%, #E0B48A 100%);
+            color: var(--deep-choco);
+        }
+
+        .contact-info {
+            font-size: 0.84rem;
+            color: rgba(230, 214, 200, 0.55);
+            margin-top: 40px;
+            padding-top: 28px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            line-height: 1.8;
+        }
+
+        .contact-info p {
+            margin-bottom: 6px;
         }
 
         /* RESPONSIVE DESIGN */
@@ -1577,49 +2177,53 @@
             .nav-sticky {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
-                overflow-x: visible;
+                overflow: visible;
                 white-space: normal;
-                padding: 0;
-                gap: 0;
+                padding: 12px 12px;
+                gap: 8px;
             }
 
             .nav-sticky a {
-                padding: 14px 8px;
-                font-size: 0.6rem;
-                letter-spacing: 1.5px;
+                width: 100%;
+                min-width: 0;
+                padding: 9px 8px;
+                font-size: 0.56rem;
+                letter-spacing: 0.8px;
                 text-align: center;
-                border-bottom: 1px solid rgba(255,255,255,0.06);
+                line-height: 1.25;
+                white-space: normal;
             }
 
-            .nav-sticky .nav-pascua {
-                grid-column: auto;
-                padding: 14px 8px;
-                border-radius: 0;
-                font-size: 0.6rem;
-                letter-spacing: 1.5px !important;
+            .nav-sticky .nav-novedad {
+                padding: 9px 8px;
+                font-size: 0.56rem;
+                letter-spacing: 0.8px !important;
             }
 
             footer {
-                padding: 60px 0 40px;
+                padding: 56px 0 40px;
             }
 
-            footer h2 {
+            .footer-cta-main h2 {
                 font-size: 2rem;
             }
 
-            footer > .container > p {
-                font-size: 0.95rem;
+            .footer-cta-main > p {
+                font-size: 0.92rem;
+                margin-bottom: 1.6rem;
             }
 
-            .footer-btn {
-                padding: 14px 35px;
-                font-size: 0.78rem;
+            .footer-btn-wa {
+                width: 100%;
+                max-width: 320px;
+                padding: 15px 24px;
+                font-size: 0.72rem;
             }
 
             .contact-info {
-                margin-top: 30px;
-                padding-top: 25px;
-                font-size: 0.8rem;
+                margin-top: 32px;
+                padding-top: 24px;
+                font-size: 0.78rem;
             }
         }
 
@@ -1685,6 +2289,7 @@
                 border-color: var(--deep-choco);
             }
 
+            .section-novedad .btn-more,
             .section-pascua .btn-more,
             .section-dark .btn-more {
                 background: var(--deep-choco);
@@ -1730,28 +2335,21 @@
             }
 
             .nav-sticky {
-                display: grid;
                 grid-template-columns: repeat(3, 1fr);
-                overflow-x: visible;
-                white-space: normal;
-                padding: 0;
-                gap: 0;
+                padding: 10px 8px;
+                gap: 6px;
             }
 
             .nav-sticky a {
-                padding: 12px 6px;
-                font-size: 0.56rem;
-                letter-spacing: 1.2px;
-                text-align: center;
-                border-bottom: 1px solid rgba(255,255,255,0.06);
+                padding: 8px 4px;
+                font-size: 0.48rem;
+                letter-spacing: 0.4px;
             }
 
-            .nav-sticky .nav-pascua {
-                grid-column: auto;
-                padding: 12px 6px;
-                border-radius: 0;
-                font-size: 0.56rem;
-                letter-spacing: 1.2px !important;
+            .nav-sticky .nav-novedad {
+                padding: 8px 4px;
+                font-size: 0.48rem;
+                letter-spacing: 0.4px !important;
             }
 
             .scroll-indicator {
@@ -1771,20 +2369,16 @@
                 padding: 45px 0 30px;
             }
 
-            footer h2 {
-                font-size: 1.6rem;
-                margin-bottom: 0.5rem;
+            .footer-cta-main h2 {
+                font-size: 1.75rem;
             }
 
-            footer > .container > p {
+            .footer-cta-main > p {
                 font-size: 0.88rem;
-                line-height: 1.6;
+                line-height: 1.65;
             }
 
-            .footer-btn {
-                padding: 13px 30px;
-                font-size: 0.75rem;
-                width: 100%;
+            .footer-btn-wa {
                 max-width: 300px;
             }
 
@@ -1847,21 +2441,19 @@
             }
 
             .nav-sticky a {
-                padding: 10px 4px;
-                font-size: 0.5rem;
-                letter-spacing: 0.8px;
+                padding: 7px 3px;
+                font-size: 0.44rem;
+                letter-spacing: 0.3px;
             }
 
-            .nav-sticky .nav-pascua {
-                grid-column: auto;
-                padding: 10px 4px;
-                border-radius: 0;
-                font-size: 0.5rem;
-                letter-spacing: 0.8px !important;
+            .nav-sticky .nav-novedad {
+                padding: 7px 3px;
+                font-size: 0.44rem;
+                letter-spacing: 0.3px !important;
             }
 
-            footer h2 {
-                font-size: 1.4rem;
+            .footer-cta-main h2 {
+                font-size: 1.55rem;
             }
         }
 
@@ -1968,200 +2560,173 @@
 
     <!-- NAVEGACIÓN RÁPIDA -->
     <div class="nav-sticky">
-        <a href="#pascua" class="nav-pascua">&#10024; Pascuas &#10024;</a>
+        <a href="#novedad" class="nav-novedad">&#10024; Novedad &#10024;</a>
         <a href="#choc">Chocolatería</a>
         <a href="#masas">Masas Secas</a>
         <a href="#alfajores">Alfajores</a>
         <a href="#tortas">Tortas</a>
-        <a href="#tartas">Tartas</a>
+        <a href="#pascua">Pascuas</a>
     </div>
 
-    <!-- SECCIÓN: PASCUA (DESTACADA) -->
-    <section id="pascua" class="section-padding section-pascua">
-        <!-- BORDE SUPERIOR -->
-        <span class="pascua-deco">&#129415;</span>
-        <span class="pascua-deco">&#129370;</span>
-        <span class="pascua-deco">&#127819;</span>
-        <span class="pascua-deco">&#129415;</span>
-        <span class="pascua-deco">&#127872;</span>
-        <span class="pascua-deco">&#129370;</span>
-        <span class="pascua-deco">&#129415;</span>
-        <!-- BORDE IZQUIERDO -->
-        <span class="pascua-deco">&#129370;</span>
-        <span class="pascua-deco">&#129415;</span>
-        <span class="pascua-deco">&#127872;</span>
-        <span class="pascua-deco">&#129370;</span>
-        <span class="pascua-deco">&#129415;</span>
-        <span class="pascua-deco">&#127819;</span>
-        <span class="pascua-deco">&#129370;</span>
-        <span class="pascua-deco">&#129415;</span>
-        <span class="pascua-deco">&#127872;</span>
-        <!-- BORDE DERECHO -->
-        <span class="pascua-deco">&#129415;</span>
-        <span class="pascua-deco">&#129370;</span>
-        <span class="pascua-deco">&#127819;</span>
-        <span class="pascua-deco">&#129415;</span>
-        <span class="pascua-deco">&#127872;</span>
-        <span class="pascua-deco">&#129370;</span>
-        <span class="pascua-deco">&#129415;</span>
-        <span class="pascua-deco">&#129370;</span>
-        <span class="pascua-deco">&#127872;</span>
-        <!-- BORDE INFERIOR -->
-        <span class="pascua-deco">&#129370;</span>
-        <span class="pascua-deco">&#129415;</span>
-        <span class="pascua-deco">&#127872;</span>
-        <span class="pascua-deco">&#129370;</span>
-        <span class="pascua-deco">&#129415;</span>
-        <span class="pascua-deco">&#127819;</span>
-        <span class="pascua-deco">&#129415;</span>
-        <div class="container">
+    <!-- SECCIÓN: NOVEDAD DEL MOMENTO -->
+    <section id="novedad" class="section-padding section-novedad section-fx-dark">
+        <div class="novedad-bg" aria-hidden="true">
+            <div class="novedad-glow novedad-glow-1"></div>
+            <div class="novedad-glow novedad-glow-2"></div>
+        </div>
+        <div class="novedad-drip" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="novedad-particles" aria-hidden="true">
+            <span class="novedad-particle"></span>
+            <span class="novedad-particle"></span>
+            <span class="novedad-particle"></span>
+            <span class="novedad-particle"></span>
+            <span class="novedad-particle"></span>
+            <span class="novedad-particle"></span>
+            <span class="novedad-particle"></span>
+            <span class="novedad-particle"></span>
+            <span class="novedad-particle"></span>
+            <span class="novedad-particle"></span>
+        </div>
+        <span class="novedad-deco" aria-hidden="true">&#127851;</span>
+        <span class="novedad-deco" aria-hidden="true">&#127852;</span>
+        <span class="novedad-deco" aria-hidden="true">&#10024;</span>
+        <span class="novedad-deco" aria-hidden="true">&#127873;</span>
+        <span class="novedad-deco" aria-hidden="true">&#127851;</span>
+        <span class="novedad-deco" aria-hidden="true">&#127852;</span>
+        <span class="novedad-deco" aria-hidden="true">&#10024;</span>
+        <span class="novedad-deco" aria-hidden="true">&#127873;</span>
+        <div class="container novedad-inner">
             <div class="category-header reveal">
-                <div class="pascua-banner">
-                    <span class="pascua-badge">Edición Limitada 2026</span>
+                <div class="novedad-banner">
+                    <span class="novedad-badge">Novedad del Momento</span>
                 </div>
-                <h2>Pascuas</h2>
-                <p>Descubrí nuestra colección especial de Pascuas, elaborada con amor y los mejores ingredientes artesanales.</p>
+                <h2>Lo Nuevo</h2>
+                <p>Descubrí nuestras últimas creaciones artesanales, elaboradas con los mejores ingredientes.</p>
             </div>
 
             <div class="sub-category-header">
-                <h3>Huevos de Pascua</h3>
+                <h3>Bombones</h3>
             </div>
             <div class="product-grid">
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="pascuas/pascua7.jpeg" alt="Huevo de Pascua Artesanal">
+                        <img src="bombones/cho1 (7).jpeg?v=20260529" alt="Doce Bombones">
                     </div>
                     <div class="product-info">
-                        <h3>Huevo Artesanal</h3>
-                        <p>Huevo de chocolate con leche texturado, elaborado a mano con finas líneas de chocolate.</p>
+                        <h3>Doce Bombones</h3>
+                        <p>Caja con doce bombones artesanales elaborados a mano.</p>
                         <button class="btn-more"
-                            onclick="openModal('Huevo Artesanal', 'pascuas/pascua7.jpeg', 'Nuestro huevo insignia de Pascua. Cáscara de chocolate con leche elaborada artesanalmente con un elegante acabado de líneas texturadas y borde decorativo. Un clásico irresistible.')">Consultar
+                            onclick="openModal('Doce Bombones', 'bombones/cho1 (7).jpeg?v=20260529', 'Caja con doce bombones artesanales elaborados a mano con chocolate premium. Ideal para regalar o disfrutar en cualquier ocasión.')">Consultar
+                            stock</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image product-image-carousel">
+                        <div class="card-image-track" id="bombones21Carousel" data-index="0">
+                            <img src="bombones/bob (2).png?v=20260529" alt="Caja de 21 Bombones 1">
+                            <img src="bombones/bob (3).png?v=20260529" alt="Caja de 21 Bombones 2">
+                        </div>
+                        <div class="card-carousel-dots">
+                            <span class="card-carousel-dot active" onclick="goCardCarouselManual('bombones21Carousel', 0)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('bombones21Carousel', 1)"></span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Caja de 21 Bombones</h3>
+                        <p>Selección de veintiún bombones con rellenos variados.</p>
+                        <button class="btn-more"
+                            onclick="openModalFromCarousel('Caja de 21 Bombones', 'bombones21Carousel', 'Caja de veintiún bombones artesanales con rellenos suaves y cobertura de chocolate premium. Una presentación ideal para compartir.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="pascuas/pascua8.jpeg" alt="Huevos Familiares">
+                        <img src="bombones/bob (1).png?v=20260529" alt="Caja de 40 Bombones">
                     </div>
                     <div class="product-info">
-                        <h3>Huevos Familiares</h3>
-                        <p>Set de huevos en tres tamaños, ideales para compartir en familia.</p>
+                        <h3>Caja de 40 Bombones</h3>
+                        <p>Gran caja con cuarenta bombones artesanales.</p>
                         <button class="btn-more"
-                            onclick="openModal('Huevos Familiares', 'pascuas/pascua8.jpeg', 'La opción perfecta para toda la familia. Tres huevos de chocolate artesanal en diferentes tamaños, elaborados con el mismo cuidado y calidad premium que nos caracteriza.')">Consultar
-                            stock</button>
-                    </div>
-                </article>
-            </div>
-
-            <div class="sub-category-header">
-                <h3>Figuras de Chocolate</h3>
-            </div>
-            <div class="product-grid">
-                <article class="product-card">
-                    <div class="product-image">
-                        <img src="pascuas/pascua10.jpeg" alt="Huevos Conejito">
-                    </div>
-                    <div class="product-info">
-                        <h3>Huevos Conejito</h3>
-                        <p>Huevos de chocolate blanco con caritas de conejito en colores pasteles.</p>
-                        <button class="btn-more"
-                            onclick="openModal('Huevos Conejito', 'pascuas/pascua10.jpeg', 'Los favoritos de los más chicos. Huevos de chocolate blanco con adorables caritas de conejito, disponibles en verde y lila. Pintados a mano con manteca de cacao coloreada.')">Consultar
+                            onclick="openModal('Caja de 40 Bombones', 'bombones/bob (1).png?v=20260529', 'Caja de cuarenta bombones artesanales, perfecta para reuniones, regalos especiales o celebraciones.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="pascuas/pascua1.jpeg" alt="Labubu de Diferentes Colores">
+                        <img src="bombones/signture (1).jpeg" alt="Bombones Signature">
                     </div>
                     <div class="product-info">
-                        <h3>Labubu Multicolor</h3>
-                        <p>Adorables figuras de Labubu en rosa, verde y celeste.</p>
+                        <h3>Bombones Signature</h3>
+                        <p>Bombones premium pintados a mano con rellenos de autor.</p>
                         <button class="btn-more"
-                            onclick="openModal('Labubu Multicolor', 'pascuas/pascua1.jpeg', 'Los personajes más tiernos de esta Pascua. Tres figuras de chocolate pintadas a mano con manteca de cacao en vibrantes colores rosa, verde y celeste. Ideales para los más pequeños.')">Consultar
+                            onclick="openModal('Bombones Signature', 'bombones/signture (1).jpeg', 'Bombones Signature elaborados artesanalmente con acabado premium y rellenos exclusivos de la casa.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
-                    <div class="product-image">
-                        <img src="pascuas/pascua6.jpeg" alt="Conejito de Chocolate Blanco">
+                    <div class="product-image product-image-carousel">
+                        <div class="card-image-track" id="signature21Carousel" data-index="0">
+                            <img src="bombones/signture (2).jpeg" alt="Caja de 21 Bombones Signature 1">
+                            <img src="bombones/signture (3).jpeg" alt="Caja de 21 Bombones Signature 2">
+                        </div>
+                        <div class="card-carousel-dots">
+                            <span class="card-carousel-dot active" onclick="goCardCarouselManual('signature21Carousel', 0)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('signature21Carousel', 1)"></span>
+                        </div>
                     </div>
                     <div class="product-info">
-                        <h3>Conejito Clásico</h3>
-                        <p>Tierno conejito de chocolate blanco con jardinero rosa pintado a mano.</p>
+                        <h3>Caja de 21 Bombones Signature</h3>
+                        <p>Veintiún bombones Signature con presentación elegante.</p>
                         <button class="btn-more"
-                            onclick="openModal('Conejito Clásico', 'pascuas/pascua6.jpeg', 'El clásico conejito de Pascua en su versión más dulce. Elaborado en chocolate blanco premium y decorado a mano con detalles en rosa y naranja. Un regalo encantador.')">Consultar
+                            onclick="openModalFromCarousel('Caja de 21 Bombones Signature', 'signature21Carousel', 'Caja de veintiún bombones Signature, pintados a mano con rellenos gourmet. Una experiencia de lujo para regalar o regalarse.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
-                    <div class="product-image">
-                        <img src="pascuas/pascua3.jpeg" alt="Carpincho Argentino">
+                    <div class="product-image product-image-carousel">
+                        <div class="card-image-track" id="signature5Carousel" data-index="0">
+                            <img src="bombones/signture (4).jpeg" alt="Caja de 5 Bombones Signature 1">
+                            <img src="bombones/signture (6).jpeg" alt="Caja de 5 Bombones Signature 2">
+                        </div>
+                        <div class="card-carousel-dots">
+                            <span class="card-carousel-dot active" onclick="goCardCarouselManual('signature5Carousel', 0)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('signature5Carousel', 1)"></span>
+                        </div>
                     </div>
                     <div class="product-info">
-                        <h3>Carpincho Argentino</h3>
-                        <p>Figura de carpincho en chocolate con leche con corazón albiceleste.</p>
+                        <h3>Caja de 5 Bombones Signature</h3>
+                        <p>Selección de cinco bombones Signature en caja premium.</p>
                         <button class="btn-more"
-                            onclick="openModal('Carpincho Argentino', 'pascuas/pascua3.jpeg', 'Nuestra creación más argentina. Un adorable carpincho de chocolate con leche que sostiene un corazón con los colores de la bandera argentina. Orgullo nacional en chocolate.')">Consultar
+                            onclick="openModalFromCarousel('Caja de 5 Bombones Signature', 'signature5Carousel', 'Caja de cinco bombones Signature artesanales. Un detalle elegante y delicioso para obsequiar.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
-                    <div class="product-image">
-                        <img src="pascuas/pascua2.jpeg" alt="Copa del Mundo de Chocolate">
+                    <div class="product-image product-image-carousel">
+                        <div class="card-image-track" id="gourmetCarousel" data-index="0">
+                            <img src="bombones/pota.png" alt="Bombones Gourmet Portada">
+                            <img src="bombones/1.jpeg" alt="Bombones Gourmet 1">
+                            <img src="bombones/2.jpeg" alt="Bombones Gourmet 2">
+                            <img src="bombones/3.jpeg" alt="Bombones Gourmet 3">
+                            <img src="bombones/4.jpeg" alt="Bombones Gourmet 4">
+                            <img src="bombones/5.jpeg" alt="Bombones Gourmet 5">
+                        </div>
+                        <div class="card-carousel-dots">
+                            <span class="card-carousel-dot active" onclick="goCardCarouselManual('gourmetCarousel', 0)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('gourmetCarousel', 1)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('gourmetCarousel', 2)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('gourmetCarousel', 3)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('gourmetCarousel', 4)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('gourmetCarousel', 5)"></span>
+                        </div>
                     </div>
                     <div class="product-info">
-                        <h3>Copa del Mundo</h3>
-                        <p>Réplica de la copa mundial en chocolate con acabado dorado.</p>
+                        <h3>Bombones Gourmet</h3>
+                        <p>Selección gourmet de bombones artesanales con acabados premium.</p>
                         <button class="btn-more"
-                            onclick="openModal('Copa del Mundo', 'pascuas/pascua2.jpeg', 'Para los fanáticos del fútbol. Réplica artesanal de la Copa del Mundo elaborada en chocolate con un impresionante acabado dorado. Disponible en dos tamaños.')">Consultar
-                            stock</button>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="product-image">
-                        <img src="pascuas/pascua9.jpeg" alt="Combo Carpincho y Copa">
-                    </div>
-                    <div class="product-info">
-                        <h3>Combo Campeón</h3>
-                        <p>Carpincho albiceleste junto a la copa mundial en chocolate.</p>
-                        <button class="btn-more"
-                            onclick="openModal('Combo Campeón', 'pascuas/pascua9.jpeg', 'El combo más argentino de estas Pascuas. Nuestro carpincho con corazón albiceleste acompañado de la réplica de la Copa del Mundo en chocolate dorado. El regalo perfecto para el hincha.')">Consultar
-                            stock</button>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="product-image">
-                        <img src="pascuas/spiderman.jpeg" alt="Spiderman de Chocolate">
-                    </div>
-                    <div class="product-info">
-                        <h3>Spiderman</h3>
-                        <p>Figura de Spiderman elaborada en chocolate artesanal pintada a mano.</p>
-                        <button class="btn-more"
-                            onclick="openModal('Spiderman', 'pascuas/spiderman.jpeg', 'El superhéroe favorito en versión chocolate. Figura de Spiderman elaborada artesanalmente y pintada a mano con manteca de cacao coloreada. El regalo perfecto para los fans.')">Consultar
-                            stock</button>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="product-image">
-                        <img src="pascuas/unigrande.jpeg" alt="Huevo Unicornio">
-                    </div>
-                    <div class="product-info">
-                        <h3>Huevo Unicornio</h3>
-                        <p>Majestuoso unicornio de chocolate con detalles premium.</p>
-                        <button class="btn-more"
-                            onclick="openModal('Huevo Unicornio', 'pascuas/unigrande.jpeg', 'Nuestro unicornio de chocolate artesanal decorado a mano con colores vibrantes y detalles premium. El regalo estrella de estas Pascuas.')">Consultar
-                            stock</button>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="product-image">
-                        <img src="pascuas/emojis.jpeg" alt="Emojis de Chocolate">
-                    </div>
-                    <div class="product-info">
-                        <h3>Emojis</h3>
-                        <p>Divertidos emojis de chocolate pintados a mano con colores vibrantes.</p>
-                        <button class="btn-more"
-                            onclick="openModal('Emojis', 'pascuas/emojis.jpeg', 'Los emojis más divertidos en versión chocolate. Figuras pintadas a mano con manteca de cacao coloreada. Ideales para regalar y sacar una sonrisa.')">Consultar
+                            onclick="openModalFromCarousel('Bombones Gourmet', 'gourmetCarousel', 'Bombones gourmet elaborados artesanalmente con los mejores ingredientes y presentación de alta gama. Una delicia exclusiva para paladares exigentes.')">Consultar
                             stock</button>
                     </div>
                 </article>
@@ -2170,193 +2735,168 @@
     </section>
 
     <!-- SECCIÓN: CHOCOLATERÍA -->
-    <section id="choc" class="section-padding">
+    <section id="choc" class="section-padding section-fx-light">
         <div class="container">
             <div class="category-header reveal">
                 <h2>Chocolatería</h2>
             </div>
             <div class="product-grid">
                 <article class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1549007994-cb92ca71450a?q=80&w=1000&auto=format&fit=crop"
-                            alt="Bombones">
+                    <div class="product-image product-image-carousel">
+                        <div class="card-image-track" id="saluCarousel" data-index="0">
+                            <img src="chocolates/chcocolates/salu1.jpeg" alt="Chocolates Saludables 1">
+                            <img src="chocolates/chcocolates/salu2.jpeg" alt="Chocolates Saludables 2">
+                            <img src="chocolates/chcocolates/salu3.jpeg" alt="Chocolates Saludables 3">
+                        </div>
+                        <div class="card-carousel-dots">
+                            <span class="card-carousel-dot active" onclick="goCardCarouselManual('saluCarousel', 0)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('saluCarousel', 1)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('saluCarousel', 2)"></span>
+                        </div>
                     </div>
                     <div class="product-info">
-                        <h3>Caja Signature</h3>
-                        <p>Selección de 12 bombones rellenos con autoría propia.</p>
+                        <h3>Chocolates Saludables</h3>
+                        <p>Opciones de chocolate con ingredientes naturales y sin azúcar añadido.</p>
                         <button class="btn-more"
-                            onclick="openModal('Caja Signature', 'https://images.unsplash.com/photo-1549007994-cb92ca71450a?q=80&w=1000&auto=format&fit=crop', 'Nuestra joya de la corona. La Caja Signature contiene 12 bombones pintados a mano con rellenos que van desde ganache de maracuyá hasta praliné de avellanas tostadas. Una experiencia de lujo para regalar o regalarse.')">Consultar
+                            onclick="openModalFromCarousel('Chocolates Saludables', 'saluCarousel', 'Selección de chocolates saludables elaborados artesanalmente con ingredientes naturales. Una alternativa deliciosa para quienes buscan disfrutar el chocolate de forma más consciente.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1623945239962-d4b97d19c122?q=80&w=1000&auto=format&fit=crop"
-                            alt="Trufas">
+                        <img src="chocolates/chcocolates/habanos.jpeg" alt="Habanos">
                     </div>
                     <div class="product-info">
-                        <h3>Trufas de Champagne</h3>
-                        <p>Corazón suave infusionado con espumante y baño de oro.</p>
+                        <h3>Habanos</h3>
+                        <p>Chocolate artesanal con forma de habano, ideal para regalar.</p>
                         <button class="btn-more"
-                            onclick="openModal('Trufas de Champagne', 'https://images.unsplash.com/photo-1623945239962-d4b97d19c122?q=80&w=1000&auto=format&fit=crop', 'Sofisticación pura. Cada trufa contiene una reducción de Champagne francés que se funde en la boca, terminada con una fina lámina de oro comestible de 24k para el toque definitivo de distinción.')">Consultar
+                            onclick="openModal('Habanos', 'chocolates/chcocolates/habanos.jpeg', 'Habanos de chocolate artesanal elaborados a mano. Una pieza elegante y original, perfecta para ocasiones especiales o como regalo distinguido.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1614088685112-0a760b71a3c8?q=80&w=1000&auto=format&fit=crop"
-                            alt="Tableta">
+                    <div class="product-image product-image-carousel">
+                        <div class="card-image-track" id="ferreroCarousel" data-index="0">
+                            <img src="chocolates/chcocolates/ferrero1.jpeg" alt="Ferreros 1">
+                            <img src="chocolates/chcocolates/ferrero2.jpeg" alt="Ferreros 2">
+                        </div>
+                        <div class="card-carousel-dots">
+                            <span class="card-carousel-dot active" onclick="goCardCarouselManual('ferreroCarousel', 0)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('ferreroCarousel', 1)"></span>
+                        </div>
                     </div>
                     <div class="product-info">
-                        <h3>Tableta 80% Cacao</h3>
-                        <p>Chocolate origen único con cristales de sal marina.</p>
+                        <h3>Ferreros</h3>
+                        <p>Bombones crujientes con avellana y chocolate artesanal.</p>
                         <button class="btn-more"
-                            onclick="openModal('Tableta 80% Cacao', 'https://images.unsplash.com/photo-1614088685112-0a760b71a3c8?q=80&w=1000&auto=format&fit=crop', 'Para los verdaderos conocedores. Chocolate de origen único seleccionado por su perfil de notas frutales y terrosas, realzado por cristales de Flor de Sal recolectados a mano.')">Consultar
+                            onclick="openModalFromCarousel('Ferreros', 'ferreroCarousel', 'Deliciosos ferreros artesanales con avellana tostada, cubiertos de chocolate de la casa. Un clásico irresistible para regalar o disfrutar.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1548907040-4baa42d10079?q=80&w=1000&auto=format&fit=crop"
-                            alt="Ramas">
+                    <div class="product-image product-image-carousel">
+                        <div class="card-image-track" id="ramaCarousel" data-index="0">
+                            <img src="chocolates/chcocolates/rama1.jpeg" alt="Chocolate en Rama 1">
+                            <img src="chocolates/chcocolates/rama2.jpeg" alt="Chocolate en Rama 2">
+                            <img src="chocolates/chcocolates/rama3.jpeg" alt="Chocolate en Rama 3">
+                        </div>
+                        <div class="card-carousel-dots">
+                            <span class="card-carousel-dot active" onclick="goCardCarouselManual('ramaCarousel', 0)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('ramaCarousel', 1)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('ramaCarousel', 2)"></span>
+                        </div>
                     </div>
                     <div class="product-info">
                         <h3>Chocolate en Rama</h3>
                         <p>Textura aireada y crujiente, disponible en leche o amargo.</p>
                         <button class="btn-more"
-                            onclick="openModal('Chocolate en Rama', 'https://images.unsplash.com/photo-1548907040-4baa42d10079?q=80&w=1000&auto=format&fit=crop', 'Una técnica magistral que crea finas láminas de chocolate que crujen al morderlas. Elaboradas a partir del mejor blend de la casa, son un clásico irresistible que nunca pasa de moda.')">Consultar
+                            onclick="openModalFromCarousel('Chocolate en Rama', 'ramaCarousel', 'Una técnica magistral que crea finas láminas de chocolate que crujen al morderlas. Elaboradas a partir del mejor blend de la casa, son un clásico irresistible que nunca pasa de moda.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
-                    <div class="product-image">
-                        <img src="chocolates/Zapatos y botas/zap (1).jpeg" alt="Zapato de Chocolate 1">
+                    <div class="product-image product-image-carousel">
+                        <div class="card-image-track" id="zap1Carousel" data-index="0">
+                            <img src="chocolates/Zapatos y botas/zap (1).jpeg" alt="Zapato de Chocolate 1">
+                            <img src="chocolates/Zapatos y botas/zap (2).jpeg" alt="Zapato de Chocolate 2">
+                            <img src="chocolates/Zapatos y botas/zap (4).jpeg" alt="Zapato de Chocolate 4">
+                            <img src="chocolates/Zapatos y botas/zap (6).jpeg" alt="Zapato de Chocolate 6">
+                            <img src="chocolates/Zapatos y botas/zap (7).jpeg" alt="Zapato de Chocolate 7">
+                            <img src="chocolates/Zapatos y botas/zap (9).jpeg" alt="Zapato de Chocolate 9">
+                        </div>
+                        <div class="card-carousel-dots">
+                            <span class="card-carousel-dot active" onclick="goCardCarouselManual('zap1Carousel', 0)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('zap1Carousel', 1)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('zap1Carousel', 2)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('zap1Carousel', 3)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('zap1Carousel', 4)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('zap1Carousel', 5)"></span>
+                        </div>
                     </div>
                     <div class="product-info">
                         <h3>Zapato Artesanal</h3>
-                        <p>Zapato de chocolate artesanal elaborado con cacao seleccionado.</p>
+                        <p>Zapatos y botas de chocolate artesanal con cacao seleccionado.</p>
                         <button class="btn-more"
-                            onclick="openModal('Zapato Artesanal', 'chocolates/Zapatos y botas/zap (1).jpeg', 'Zapato de chocolate artesanal elaborado con cacao seleccionado. Una pieza única ideal para regalar.')">Consultar
+                            onclick="openModalFromCarousel('Zapato Artesanal', 'zap1Carousel', 'Selección de zapatos y botas de chocolate artesanal elaborados con cacao seleccionado. Piezas únicas con acabado premium, ideales para regalar.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
-                    <div class="product-image">
-                        <img src="chocolates/Zapatos y botas/zap (2).jpeg" alt="Zapato de Chocolate 2">
-                    </div>
-                    <div class="product-info">
-                        <h3>Bota de Chocolate</h3>
-                        <p>Bota de chocolate con detalles artesanales y acabado premium.</p>
-                        <button class="btn-more"
-                            onclick="openModal('Bota de Chocolate', 'chocolates/Zapatos y botas/zap (2).jpeg', 'Bota de chocolate con detalles artesanales y acabado premium. Perfecta para sorprender en cualquier ocasión.')">Consultar
-                            stock</button>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="product-image">
-                        <img src="chocolates/Zapatos y botas/zap (3).jpeg" alt="Zapato de Chocolate 3">
+                    <div class="product-image product-image-carousel">
+                        <div class="card-image-track" id="zap3Carousel" data-index="0">
+                            <img src="chocolates/Zapatos y botas/zap (3).jpeg" alt="Zapato de Chocolate 3">
+                            <img src="chocolates/Zapatos y botas/zap (10).jpeg" alt="Zapato de Chocolate 10">
+                            <img src="chocolates/Zapatos y botas/zap (11).jpeg" alt="Zapato de Chocolate 11">
+                        </div>
+                        <div class="card-carousel-dots">
+                            <span class="card-carousel-dot active" onclick="goCardCarouselManual('zap3Carousel', 0)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('zap3Carousel', 1)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('zap3Carousel', 2)"></span>
+                        </div>
                     </div>
                     <div class="product-info">
                         <h3>Zapato Clásico</h3>
-                        <p>Zapato de chocolate clásico con terminación artesanal.</p>
+                        <p>Zapato y bota de chocolate clásicos con terminación artesanal.</p>
                         <button class="btn-more"
-                            onclick="openModal('Zapato Clásico', 'chocolates/Zapatos y botas/zap (3).jpeg', 'Zapato de chocolate clásico con terminación artesanal. Un regalo perfecto para los amantes del chocolate.')">Consultar
+                            onclick="openModalFromCarousel('Zapato Clásico', 'zap3Carousel', 'Selección de zapatos y botas de chocolate clásicos con terminación artesanal. Piezas únicas ideales para regalar en ocasiones especiales.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
-                    <div class="product-image">
-                        <img src="chocolates/Zapatos y botas/zap (6).jpeg" alt="Zapato de Chocolate 6">
+                    <div class="product-image product-image-carousel">
+                        <div class="card-image-track" id="cho1Carousel" data-index="0">
+                            <img src="chocolates/Zapatos y botas/cho1 (4).jpeg" alt="Cartera de Chocolate Roja">
+                            <img src="chocolates/Zapatos y botas/cho1 (8).jpeg" alt="Cartera de Chocolate Negra">
+                        </div>
+                        <div class="card-carousel-dots">
+                            <span class="card-carousel-dot active" onclick="goCardCarouselManual('cho1Carousel', 0)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('cho1Carousel', 1)"></span>
+                        </div>
                     </div>
                     <div class="product-info">
-                        <h3>Bota Premium</h3>
-                        <p>Bota de chocolate premium con decoración artesanal.</p>
+                        <h3>Carteras de Chocolate</h3>
+                        <p>Carteras de chocolate roja y negra elaboradas artesanalmente con cacao seleccionado.</p>
                         <button class="btn-more"
-                            onclick="openModal('Bota Premium', 'chocolates/Zapatos y botas/zap (6).jpeg', 'Bota de chocolate premium con decoración artesanal. Una obra de arte comestible para los amantes del chocolate.')">Consultar
+                            onclick="openModalFromCarousel('Carteras de Chocolate', 'cho1Carousel', 'Selección de carteras de chocolate artesanal en rojo y negro, elaboradas con cacao seleccionado. Piezas únicas y elegantes ideales para regalar.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
-                    <div class="product-image">
-                        <img src="chocolates/Zapatos y botas/zap (7).jpeg" alt="Zapato de Chocolate 7">
+                    <div class="product-image product-image-carousel">
+                        <div class="card-image-track" id="cho10Carousel" data-index="0">
+                            <img src="chocolates/Zapatos y botas/cho1 (10).jpeg" alt="Ramo de Flores de Chocolate">
+                            <img src="chocolates/Zapatos y botas/cho1 (12).jpeg" alt="Flor de Chocolate">
+                        </div>
+                        <div class="card-carousel-dots">
+                            <span class="card-carousel-dot active" onclick="goCardCarouselManual('cho10Carousel', 0)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('cho10Carousel', 1)"></span>
+                        </div>
                     </div>
                     <div class="product-info">
-                        <h3>Zapato Exclusivo</h3>
-                        <p>Zapato de chocolate exclusivo con acabado brillante.</p>
+                        <h3>Flores de Chocolate</h3>
+                        <p>Ramo y flor de chocolate artesanal, elaborados a mano con detalle único.</p>
                         <button class="btn-more"
-                            onclick="openModal('Zapato Exclusivo', 'chocolates/Zapatos y botas/zap (7).jpeg', 'Zapato de chocolate exclusivo con acabado brillante. Pieza de colección ideal para regalar en fechas especiales.')">Consultar
-                            stock</button>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="product-image">
-                        <img src="chocolates/Zapatos y botas/zap (10).jpeg" alt="Zapato de Chocolate 10">
-                    </div>
-                    <div class="product-info">
-                        <h3>Zapato Elegante</h3>
-                        <p>Zapato de chocolate elegante con diseño sofisticado.</p>
-                        <button class="btn-more"
-                            onclick="openModal('Zapato Elegante', 'chocolates/Zapatos y botas/zap (10).jpeg', 'Zapato de chocolate elegante con diseño sofisticado. Ideal para ocasiones especiales y regalos memorables.')">Consultar
-                            stock</button>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="product-image">
-                        <img src="chocolates/Zapatos y botas/zap (11).jpeg" alt="Zapato de Chocolate 11">
-                    </div>
-                    <div class="product-info">
-                        <h3>Bota Deluxe</h3>
-                        <p>Bota de chocolate deluxe con detalles finos.</p>
-                        <button class="btn-more"
-                            onclick="openModal('Bota Deluxe', 'chocolates/Zapatos y botas/zap (11).jpeg', 'Bota de chocolate deluxe con detalles finos y acabado profesional. Una pieza única de nuestra colección.')">Consultar
-                            stock</button>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="product-image">
-                        <img src="chocolates/Zapatos y botas/cho1 (4).jpeg" alt="Cartera de Chocolate Roja">
-                    </div>
-                    <div class="product-info">
-                        <h3>Cartera de Chocolate Roja</h3>
-                        <p>Cartera de chocolate roja elaborada artesanalmente con cacao seleccionado.</p>
-                        <button class="btn-more"
-                            onclick="openModal('Cartera de Chocolate Roja', 'chocolates/Zapatos y botas/cho1 (4).jpeg', 'Cartera de chocolate roja elaborada artesanalmente con cacao seleccionado. Una pieza única y elegante ideal para regalar.')">Consultar
-                            stock</button>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="product-image">
-                        <img src="chocolates/Zapatos y botas/cho1 (8).jpeg" alt="Cartera de Chocolate Negra">
-                    </div>
-                    <div class="product-info">
-                        <h3>Cartera de Chocolate Negra</h3>
-                        <p>Cartera de chocolate negra con acabado premium y detalles artesanales.</p>
-                        <button class="btn-more"
-                            onclick="openModal('Cartera de Chocolate Negra', 'chocolates/Zapatos y botas/cho1 (8).jpeg', 'Cartera de chocolate negra con acabado premium y detalles artesanales. Una pieza sofisticada ideal para sorprender.')">Consultar
-                            stock</button>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="product-image">
-                        <img src="chocolates/Zapatos y botas/cho1 (10).jpeg" alt="Ramo de Flores de Chocolate">
-                    </div>
-                    <div class="product-info">
-                        <h3>Ramo de Flores de Chocolate</h3>
-                        <p>Ramo de flores elaborado completamente en chocolate artesanal.</p>
-                        <button class="btn-more"
-                            onclick="openModal('Ramo de Flores de Chocolate', 'chocolates/Zapatos y botas/cho1 (10).jpeg', 'Ramo de flores elaborado completamente en chocolate artesanal. Un regalo original y delicioso para cualquier ocasión especial.')">Consultar
-                            stock</button>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="product-image">
-                        <img src="chocolates/Zapatos y botas/cho1 (12).jpeg" alt="Flor de Chocolate">
-                    </div>
-                    <div class="product-info">
-                        <h3>Flor de Chocolate</h3>
-                        <p>Flor de chocolate artesanal con pétalos delicados y detalle único.</p>
-                        <button class="btn-more"
-                            onclick="openModal('Flor de Chocolate', 'chocolates/Zapatos y botas/cho1 (12).jpeg', 'Flor de chocolate artesanal con pétalos delicados y detalle único. Una obra de arte comestible perfecta para regalar.')">Consultar
+                            onclick="openModalFromCarousel('Flores de Chocolate', 'cho10Carousel', 'Selección de flores de chocolate artesanal: ramo y flor individual elaborados completamente en chocolate. Un regalo original y delicioso para cualquier ocasión especial.')">Consultar
                             stock</button>
                     </div>
                 </article>
@@ -2377,7 +2917,7 @@
     </section>
 
     <!-- SECCIÓN: MASAS SECAS -->
-    <section id="masas" class="section-padding section-dark">
+    <section id="masas" class="section-padding section-dark section-fx-dark">
         <div class="container">
             <div class="category-header reveal">
                 <h2>Masas Secas</h2>
@@ -2424,7 +2964,7 @@
     </section>
 
     <!-- SECCIÓN: ALFAJORES -->
-    <section id="alfajores" class="section-padding">
+    <section id="alfajores" class="section-padding section-fx-light">
         <div class="container">
             <div class="category-header reveal">
                 <h2>Alfajores</h2>
@@ -2432,85 +2972,85 @@
             <div class="product-grid">
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="alfajores/alfa.png" alt="Alfajor Especial">
+                        <img src="alfajores/marplatence.jpeg" alt="Alfajores Marplatense">
                     </div>
                     <div class="product-info">
-                        <h3>Alfajor de Autor</h3>
-                        <p>Una pieza única con el sello distintivo de nuestra casa.</p>
+                        <h3>Marplatense</h3>
+                        <p>Galleta de chocolate, dulce de leche y baño en chocolate al 54% de cacao.</p>
                         <button class="btn-more"
-                            onclick="openModal('Alfajor de Autor', 'alfajores/alfa.png', 'La expresión máxima de nuestra pasión por lo dulce. Un alfajor equilibrado, con ingredientes seleccionados y una textura que sorprende en cada mordida.')">Consultar
+                            onclick="openModal('Alfajores Marplatense', 'alfajores/marplatence.jpeg', 'Alfajores premiums Marplatense realizados. Galleta de chocolate, con el más delicioso dulce de leche y bañado en chocolate cobertura al 54% de cacao.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="alfajores/minialfa.png" alt="Mini Alfajores">
+                        <img src="alfajores/pistacho.jpeg" alt="Alfajores de Pistacho">
                     </div>
                     <div class="product-info">
-                        <h3>Mini Alfajores Boutique</h3>
-                        <p>Bocados artesanales con el equilibrio justo de sabor.</p>
+                        <h3>Pistacho</h3>
+                        <p>Galleta de vainilla con ganache de pistacho, bañado en chocolate blanco.</p>
                         <button class="btn-more"
-                            onclick="openModal('Mini Alfajores Boutique', 'alfajores/minialfa.png', 'Nuestros clásicos en formato mini. Ideales para eventos, mesas dulces o simplemente para disfrutar de un bocado gourmet en cualquier momento.')">Consultar
+                            onclick="openModal('Alfajores de Pistacho', 'alfajores/pistacho.jpeg', 'Alfajores de pistacho realizados en galleta de vainilla con una ganache de pistacho, equilibrio perfecto, bañado en chocolate blanco.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="alfajores/minialfa1.png" alt="Mini Alfajores Premium">
+                        <img src="alfajores/cabernett.jpeg" alt="Alfajores de Cabernet">
                     </div>
                     <div class="product-info">
-                        <h3>Colección Mini Premium</h3>
-                        <p>Variedad de texturas y sabores en formato miniatura.</p>
+                        <h3>Cabernet</h3>
+                        <p>Galleta de chocolate con dulce de leche, chocolate y Cabernet, cubierto en semiamargo.</p>
                         <button class="btn-more"
-                            onclick="openModal('Colección Mini Premium', 'alfajores/minialfa1.png', 'Una selección cuidada de nuestros mejores alfajores en versión mini. Perfectos para degustar toda nuestra variedad en una sola experiencia.')">Consultar
+                            onclick="openModal('Alfajores de Cabernet', 'alfajores/cabernett.jpeg', 'Alfajores de Cabernet: galleta de chocolate con la mezcla perfecta de dulce de leche, chocolate y Cabernet, cubierta en chocolate semiamargo.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="alfajores/alfacaja12.png" alt="Caja Alfajores 12">
+                        <img src="alfajores/frutos-rojos.jpeg" alt="Alfajores de Frutos Rojos">
                     </div>
                     <div class="product-info">
-                        <h3>Caja x12 Mixta</h3>
-                        <p>Selección especial para compartir o regalar.</p>
+                        <h3>Frutos Rojos</h3>
+                        <p>Galleta de chocolate, dulce de leche y mermelada de frutos rojos en semiamargo.</p>
                         <button class="btn-more"
-                            onclick="openModal('Caja x12 Mixta', 'alfajores/alfacaja12.png', 'Nuestra mejor selección reunida en una caja de 12 unidades. Ideal para regalos corporativos, eventos familiares o simplemente para tener variedad en casa.')">Consultar
+                            onclick="openModal('Alfajores de Frutos Rojos', 'alfajores/frutos-rojos.jpeg', 'Alfajores de frutos rojos: galleta de chocolate con dulce de leche y un centro de mermelada de frutos rojos, bañado en chocolate semiamargo.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="alfajores/alfacaja12-1.png" alt="Caja Alfajores Premium">
+                        <img src="alfajores/marroc.jpeg" alt="Alfajores de Marroc">
                     </div>
                     <div class="product-info">
-                        <h3>Caja Degustación</h3>
-                        <p>Variedad premium de nuestras mejores piezas.</p>
+                        <h3>Marroc</h3>
+                        <p>Galleta de chocolate con chocolate de leche y pasta de maní, bañado en leche.</p>
                         <button class="btn-more"
-                            onclick="openModal('Caja Degustación', 'alfajores/alfacaja12-1.png', 'Una variante exclusiva de nuestras mejores piezas en formato de 12 unidades, seleccionadas por nuestro maestro pastelero para ofrecer un viaje de sabores.')">Consultar
+                            onclick="openModal('Alfajores de Marroc', 'alfajores/marroc.jpeg', 'Alfajores de Marroc: galleta de chocolate con el equilibrio ideal entre chocolate de leche y pasta de maní, bañado en chocolate de leche.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="alfajores/minicaja6.png" alt="Mini Caja x6">
+                        <img src="alfajores/cabsha.jpeg" alt="Alfajores de Cabsha">
                     </div>
                     <div class="product-info">
-                        <h3>Mini Caja Regalo x6</h3>
-                        <p>El detalle perfecto en una presentación elegante.</p>
+                        <h3>Cabsha</h3>
+                        <p>Galleta de chocolate con dulce de leche y chocolate, bañado en semiamargo.</p>
                         <button class="btn-more"
-                            onclick="openModal('Mini Caja Regalo x6', 'alfajores/minicaja6.png', 'Presentación compacta y sofisticada de 6 unidades. El detalle ideal para agasajar a alguien especial con la calidad de SOS Bombones.')">Consultar
+                            onclick="openModal('Alfajores de Cabsha', 'alfajores/cabsha.jpeg', 'Alfajores de Cabsha: galleta de chocolate, relleno de una combinación equilibrada entre dulce de leche y chocolate, bañado en chocolate semiamargo.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="alfajores/minicaja12.png" alt="Mini Caja x12">
+                        <img src="alfajores/cafe.jpeg" alt="Alfajores de Café">
                     </div>
                     <div class="product-info">
-                        <h3>Caja Mini Mixta x12</h3>
-                        <p>Versión miniatura de nuestros clásicos favoritos.</p>
+                        <h3>Café</h3>
+                        <p>Galleta de chocolate con dulce de leche, chocolate y café, cubierto en semiamargo.</p>
                         <button class="btn-more"
-                            onclick="openModal('Caja Mini Mixta x12', 'alfajores/minicaja12.png', 'Nuestras mejores recetas en formato mini. 12 bocados perfectos para disfrutar en cualquier momento del día sin culpas.')">Consultar
+                            onclick="openModal('Alfajores de Café', 'alfajores/cafe.jpeg', 'Alfajores de café: galleta de chocolate y un relleno con combinación perfecta entre dulce de leche, chocolate y café. Cubierta en chocolate semiamargo.')">Consultar
                             stock</button>
                     </div>
                 </article>
@@ -2521,7 +3061,7 @@
 
 
     <!-- SECCIÓN: TORTAS -->
-    <section id="tortas" class="section-padding section-dark">
+    <section id="tortas" class="section-padding section-dark section-fx-dark">
         <div class="container">
             <div class="category-header reveal">
                 <h2>Nuestras Tortas</h2>
@@ -2751,106 +3291,178 @@
         </div>
     </section>
 
-    <!-- SECCIÓN: TARTAS -->
-    <section id="tartas" class="section-padding">
+    <!-- SECCIÓN: PASCUA (DESTACADA) -->
+    <section id="pascua" class="section-padding section-pascua section-fx-light">
+        <!-- BORDE SUPERIOR -->
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#127819;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#127872;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <!-- BORDE IZQUIERDO -->
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#127872;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#127819;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#127872;</span>
+        <!-- BORDE DERECHO -->
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#127819;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#127872;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#127872;</span>
+        <!-- BORDE INFERIOR -->
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#127872;</span>
+        <span class="pascua-deco">&#129370;</span>
+        <span class="pascua-deco">&#129415;</span>
+        <span class="pascua-deco">&#127819;</span>
+        <span class="pascua-deco">&#129415;</span>
         <div class="container">
             <div class="category-header reveal">
-                <h2>Nuestras Tartas</h2>
+                <div class="pascua-banner">
+                    <span class="pascua-badge">Edición Pascuas 2026</span>
+                </div>
+                <h2>Pascuas</h2>
+                <p>Descubrí nuestra colección especial de Pascuas, elaborada con amor y los mejores ingredientes artesanales.</p>
             </div>
+
             <div class="product-grid">
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="tartas/1.jpeg" alt="Tarta 1">
+                        <img src="pascuas/pascua7.jpeg" alt="Huevo de Pascua Artesanal">
                     </div>
                     <div class="product-info">
-                        <h3>Tarta Artesanal 1</h3>
-                        <p>Tarta artesanal elaborada con ingredientes seleccionados.</p>
+                        <h3>Huevo Artesanal</h3>
+                        <p>Huevo de chocolate con leche texturado, elaborado a mano con finas líneas de chocolate.</p>
                         <button class="btn-more"
-                            onclick="openModal('Tarta Artesanal 1', 'tartas/1.jpeg', 'Tarta artesanal elaborada con ingredientes seleccionados y técnicas de repostería tradicional.')">Consultar
+                            onclick="openModal('Huevo Artesanal', 'pascuas/pascua7.jpeg', 'Nuestro huevo insignia de Pascua. Cáscara de chocolate con leche elaborada artesanalmente con un elegante acabado de líneas texturadas y borde decorativo. Un clásico irresistible.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="tartas/2.jpeg" alt="Tarta 2">
+                        <img src="pascuas/pascua8.jpeg" alt="Huevos Familiares">
                     </div>
                     <div class="product-info">
-                        <h3>Tarta Artesanal 2</h3>
-                        <p>Tarta artesanal con relleno casero y decoración especial.</p>
+                        <h3>Huevos Familiares</h3>
+                        <p>Set de huevos en tres tamaños, ideales para compartir en familia.</p>
                         <button class="btn-more"
-                            onclick="openModal('Tarta Artesanal 2', 'tartas/2.jpeg', 'Tarta artesanal con relleno casero y decoración especial hecha a mano.')">Consultar
+                            onclick="openModal('Huevos Familiares', 'pascuas/pascua8.jpeg', 'La opción perfecta para toda la familia. Tres huevos de chocolate artesanal en diferentes tamaños, elaborados con el mismo cuidado y calidad premium que nos caracteriza.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="tartas/3.jpeg" alt="Tarta 3">
+                        <img src="pascuas/pascua10.jpeg" alt="Huevos Conejito">
                     </div>
                     <div class="product-info">
-                        <h3>Tarta Artesanal 3</h3>
-                        <p>Tarta gourmet con combinación de sabores únicos.</p>
+                        <h3>Huevos Conejito</h3>
+                        <p>Huevos de chocolate blanco con caritas de conejito en colores pasteles.</p>
                         <button class="btn-more"
-                            onclick="openModal('Tarta Artesanal 3', 'tartas/3.jpeg', 'Tarta gourmet con combinación de sabores únicos y presentación elegante.')">Consultar
+                            onclick="openModal('Huevos Conejito', 'pascuas/pascua10.jpeg', 'Los favoritos de los más chicos. Huevos de chocolate blanco con adorables caritas de conejito, disponibles en verde y lila. Pintados a mano con manteca de cacao coloreada.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="tartas/4.jpeg" alt="Tarta 4">
+                        <img src="pascuas/pascua1.jpeg" alt="Labubu de Diferentes Colores">
                     </div>
                     <div class="product-info">
-                        <h3>Tarta Artesanal 4</h3>
-                        <p>Tarta especial con masa casera y relleno premium.</p>
+                        <h3>Labubu Multicolor</h3>
+                        <p>Adorables figuras de Labubu en rosa, verde y celeste.</p>
                         <button class="btn-more"
-                            onclick="openModal('Tarta Artesanal 4', 'tartas/4.jpeg', 'Tarta especial con masa casera y relleno premium de primera calidad.')">Consultar
+                            onclick="openModal('Labubu Multicolor', 'pascuas/pascua1.jpeg', 'Los personajes más tiernos de esta Pascua. Tres figuras de chocolate pintadas a mano con manteca de cacao en vibrantes colores rosa, verde y celeste. Ideales para los más pequeños.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="tartas/5.jpeg" alt="Tarta 5">
+                        <img src="pascuas/pascua6.jpeg" alt="Conejito de Chocolate Blanco">
                     </div>
                     <div class="product-info">
-                        <h3>Tarta Artesanal 5</h3>
-                        <p>Tarta tradicional con toque de repostería moderna.</p>
+                        <h3>Conejito Clásico</h3>
+                        <p>Tierno conejito de chocolate blanco con jardinero rosa pintado a mano.</p>
                         <button class="btn-more"
-                            onclick="openModal('Tarta Artesanal 5', 'tartas/5.jpeg', 'Tarta tradicional con toque de repostería moderna y acabado profesional.')">Consultar
+                            onclick="openModal('Conejito Clásico', 'pascuas/pascua6.jpeg', 'El clásico conejito de Pascua en su versión más dulce. Elaborado en chocolate blanco premium y decorado a mano con detalles en rosa y naranja. Un regalo encantador.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="tartas/6.jpeg" alt="Tarta 6">
+                        <img src="pascuas/pascua3.jpeg" alt="Carpincho Argentino">
                     </div>
                     <div class="product-info">
-                        <h3>Tarta Artesanal 6</h3>
-                        <p>Tarta elaborada con frutas frescas de estación.</p>
+                        <h3>Carpincho Argentino</h3>
+                        <p>Figura de carpincho en chocolate con leche con corazón albiceleste.</p>
                         <button class="btn-more"
-                            onclick="openModal('Tarta Artesanal 6', 'tartas/6.jpeg', 'Tarta elaborada con frutas frescas de estación y crema artesanal.')">Consultar
+                            onclick="openModal('Carpincho Argentino', 'pascuas/pascua3.jpeg', 'Nuestra creación más argentina. Un adorable carpincho de chocolate con leche que sostiene un corazón con los colores de la bandera argentina. Orgullo nacional en chocolate.')">Consultar
+                            stock</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image product-image-carousel">
+                        <div class="card-image-track" id="pascuaCopaCarousel" data-index="0">
+                            <img src="pascuas/pascua2.jpeg" alt="Copa del Mundo de Chocolate">
+                            <img src="pascuas/pascua9.jpeg" alt="Combo Carpincho y Copa">
+                        </div>
+                        <div class="card-carousel-dots">
+                            <span class="card-carousel-dot active" onclick="goCardCarouselManual('pascuaCopaCarousel', 0)"></span>
+                            <span class="card-carousel-dot" onclick="goCardCarouselManual('pascuaCopaCarousel', 1)"></span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Copa del Mundo</h3>
+                        <p>Réplica de la copa mundial y combo campeón con carpincho albiceleste.</p>
+                        <button class="btn-more"
+                            onclick="openModalFromCarousel('Copa del Mundo', 'pascuaCopaCarousel', 'Para los fanáticos del fútbol. Réplica artesanal de la Copa del Mundo en chocolate con acabado dorado, y combo campeón con carpincho albiceleste. El regalo perfecto para el hincha.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="tartas/7.jpeg" alt="Tarta 7">
+                        <img src="pascuas/spiderman.jpeg" alt="Spiderman de Chocolate">
                     </div>
                     <div class="product-info">
-                        <h3>Tarta Artesanal 7</h3>
-                        <p>Tarta con decoración personalizada y sabor inigualable.</p>
+                        <h3>Spiderman</h3>
+                        <p>Figura de Spiderman elaborada en chocolate artesanal pintada a mano.</p>
                         <button class="btn-more"
-                            onclick="openModal('Tarta Artesanal 7', 'tartas/7.jpeg', 'Tarta con decoración personalizada y sabor inigualable. Perfecta para cualquier celebración.')">Consultar
+                            onclick="openModal('Spiderman', 'pascuas/spiderman.jpeg', 'El superhéroe favorito en versión chocolate. Figura de Spiderman elaborada artesanalmente y pintada a mano con manteca de cacao coloreada. El regalo perfecto para los fans.')">Consultar
                             stock</button>
                     </div>
                 </article>
                 <article class="product-card">
                     <div class="product-image">
-                        <img src="tartas/8.jpeg" alt="Tarta 8">
+                        <img src="pascuas/unigrande.jpeg" alt="Huevo Unicornio">
                     </div>
                     <div class="product-info">
-                        <h3>Tarta Artesanal 8</h3>
-                        <p>Tarta exclusiva con ingredientes de primera calidad.</p>
+                        <h3>Huevo Unicornio</h3>
+                        <p>Majestuoso unicornio de chocolate con detalles premium.</p>
                         <button class="btn-more"
-                            onclick="openModal('Tarta Artesanal 8', 'tartas/8.jpeg', 'Tarta exclusiva con ingredientes de primera calidad y presentación impecable.')">Consultar
+                            onclick="openModal('Huevo Unicornio', 'pascuas/unigrande.jpeg', 'Nuestro unicornio de chocolate artesanal decorado a mano con colores vibrantes y detalles premium. El regalo estrella de estas Pascuas.')">Consultar
+                            stock</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="pascuas/emojis.jpeg" alt="Emojis de Chocolate">
+                    </div>
+                    <div class="product-info">
+                        <h3>Emojis</h3>
+                        <p>Divertidos emojis de chocolate pintados a mano con colores vibrantes.</p>
+                        <button class="btn-more"
+                            onclick="openModal('Emojis', 'pascuas/emojis.jpeg', 'Los emojis más divertidos en versión chocolate. Figuras pintadas a mano con manteca de cacao coloreada. Ideales para regalar y sacar una sonrisa.')">Consultar
                             stock</button>
                     </div>
                 </article>
@@ -2859,6 +3471,251 @@
     </section>
 
     <script>
+        function setupInfiniteCardCarousel(track) {
+            if (track.dataset.infiniteReady === '1') return;
+            var imgs = track.querySelectorAll('img');
+            if (imgs.length <= 1) return;
+
+            track.dataset.realCount = imgs.length;
+            var clone = imgs[0].cloneNode(true);
+            clone.classList.add('card-carousel-clone');
+            clone.setAttribute('aria-hidden', 'true');
+            track.appendChild(clone);
+            track.dataset.infiniteReady = '1';
+        }
+
+        function getCardCarouselRealTotal(track) {
+            return parseInt(track.dataset.realCount, 10) || track.querySelectorAll('img').length;
+        }
+
+        function updateCardCarouselDots(track, dotIndex) {
+            var wrapper = track.closest('.product-image-carousel');
+            if (!wrapper) return;
+            wrapper.querySelectorAll('.card-carousel-dot').forEach(function (dot, i) {
+                dot.classList.toggle('active', i === dotIndex);
+            });
+        }
+
+        function goCardCarousel(trackId, index, instant) {
+            const track = document.getElementById(trackId);
+            if (!track) return;
+
+            const realTotal = getCardCarouselRealTotal(track);
+            const dotIndex = index >= realTotal ? 0 : index;
+
+            track.dataset.index = index;
+            track.style.transition = instant ? 'none' : '';
+            track.style.transform = 'translateX(-' + (index * 100) + '%)';
+
+            if (instant) {
+                void track.offsetWidth;
+                track.style.transition = '';
+            }
+
+            updateCardCarouselDots(track, dotIndex);
+        }
+
+        function advanceCardCarouselForward(trackId) {
+            const track = document.getElementById(trackId);
+            if (!track) return;
+
+            const realTotal = getCardCarouselRealTotal(track);
+            if (realTotal <= 1) return;
+
+            const current = parseInt(track.dataset.index || '0', 10);
+
+            if (track.dataset.infiniteReady !== '1') {
+                goCardCarousel(trackId, (current + 1) % realTotal);
+                return;
+            }
+
+            const next = current + 1;
+            goCardCarousel(trackId, next);
+
+            if (next >= realTotal) {
+                track.addEventListener('transitionend', function onEnd(e) {
+                    if (e.target !== track || e.propertyName !== 'transform') return;
+                    track.removeEventListener('transitionend', onEnd);
+                    goCardCarousel(trackId, 0, true);
+                });
+            }
+        }
+
+        function slideCardCarousel(trackId, direction) {
+            const track = document.getElementById(trackId);
+            if (!track) return;
+            const realTotal = getCardCarouselRealTotal(track);
+            const current = parseInt(track.dataset.index || '0', 10);
+
+            if (direction === 1) {
+                advanceCardCarouselForward(trackId);
+            } else {
+                const prev = current === 0 ? realTotal - 1 : current - 1;
+                goCardCarousel(trackId, prev);
+            }
+
+            restartCardCarouselAuto(trackId);
+        }
+
+        function goCardCarouselManual(trackId, index) {
+            goCardCarousel(trackId, index);
+            restartCardCarouselAuto(trackId);
+        }
+
+        const cardCarouselTimers = {};
+
+        function startCardCarouselAuto(trackId, intervalMs) {
+            stopCardCarouselAuto(trackId);
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            cardCarouselTimers[trackId] = setInterval(function () {
+                advanceCardCarouselForward(trackId);
+            }, intervalMs || 3000);
+        }
+
+        function stopCardCarouselAuto(trackId) {
+            if (cardCarouselTimers[trackId]) {
+                clearInterval(cardCarouselTimers[trackId]);
+                delete cardCarouselTimers[trackId];
+            }
+        }
+
+        function restartCardCarouselAuto(trackId) {
+            stopCardCarouselAuto(trackId);
+            const track = document.getElementById(trackId);
+            const wrapper = track && track.closest('.product-image-carousel');
+            if (wrapper && !wrapper.matches(':hover')) {
+                startCardCarouselAuto(trackId, 3000);
+            }
+        }
+
+        function injectCardCarouselArrows(wrapper, trackId) {
+            var track = document.getElementById(trackId);
+            if (!track || track.querySelectorAll('img').length <= 1) return;
+            if (wrapper.querySelector('.card-carousel-prev')) return;
+
+            var prev = document.createElement('button');
+            prev.type = 'button';
+            prev.className = 'card-carousel-arrow card-carousel-prev';
+            prev.setAttribute('aria-label', 'Imagen anterior');
+            prev.innerHTML = '&#10094;';
+            prev.addEventListener('click', function (e) {
+                e.stopPropagation();
+                slideCardCarousel(trackId, -1);
+            });
+
+            var next = document.createElement('button');
+            next.type = 'button';
+            next.className = 'card-carousel-arrow card-carousel-next';
+            next.setAttribute('aria-label', 'Imagen siguiente');
+            next.innerHTML = '&#10095;';
+            next.addEventListener('click', function (e) {
+                e.stopPropagation();
+                slideCardCarousel(trackId, 1);
+            });
+
+            wrapper.appendChild(prev);
+            wrapper.appendChild(next);
+        }
+
+        function initCardCarousels() {
+            document.querySelectorAll('.product-image-carousel').forEach(function (wrapper) {
+                const track = wrapper.querySelector('.card-image-track');
+                if (!track || !track.id) return;
+                const trackId = track.id;
+
+                setupInfiniteCardCarousel(track);
+                injectCardCarouselArrows(wrapper, trackId);
+                startCardCarouselAuto(trackId, 3000);
+
+                wrapper.addEventListener('mouseenter', function () {
+                    stopCardCarouselAuto(trackId);
+                });
+
+                wrapper.addEventListener('mouseleave', function () {
+                    startCardCarouselAuto(trackId, 3000);
+                });
+            });
+        }
+
+        initCardCarousels();
+
+        function initSectionEffects() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            var lightDecos = {
+                choc: ['\u{1F36B}', '\u{1F369}', '\u2728', '\u{1F381}'],
+                alfajores: ['\u{1F36A}', '\u2615', '\u2728', '\u{1F370}'],
+                pascua: ['\u{1F430}', '\u{1F95A}', '\u{1F423}', '\u{1F338}']
+            };
+
+            document.querySelectorAll('.section-fx-light').forEach(function (section) {
+                if (section.querySelector('.section-deco-wrap') || section.querySelector('.pascua-deco')) return;
+                var icons = lightDecos[section.id] || lightDecos.choc;
+                var wrap = document.createElement('div');
+                wrap.className = 'section-deco-wrap';
+                wrap.setAttribute('aria-hidden', 'true');
+                for (var i = 0; i < 32; i++) {
+                    var deco = document.createElement('span');
+                    deco.className = 'pascua-deco';
+                    deco.textContent = icons[i % icons.length];
+                    wrap.appendChild(deco);
+                }
+                section.insertBefore(wrap, section.querySelector('.container'));
+            });
+
+            document.querySelectorAll('.section-fx-dark').forEach(function (section) {
+                if (section.classList.contains('section-novedad') || section.querySelector('.novedad-bg')) return;
+
+                var bg = document.createElement('div');
+                bg.className = 'novedad-bg';
+                bg.setAttribute('aria-hidden', 'true');
+                bg.innerHTML = '<div class="novedad-glow novedad-glow-1"></div><div class="novedad-glow novedad-glow-2"></div>';
+
+                var drip = document.createElement('div');
+                drip.className = 'novedad-drip';
+                drip.setAttribute('aria-hidden', 'true');
+                drip.innerHTML = '<span></span><span></span><span></span><span></span><span></span><span></span><span></span>';
+
+                var particles = document.createElement('div');
+                particles.className = 'novedad-particles';
+                particles.setAttribute('aria-hidden', 'true');
+                for (var p = 0; p < 10; p++) {
+                    var particle = document.createElement('span');
+                    particle.className = 'novedad-particle';
+                    particles.appendChild(particle);
+                }
+
+                var decos = ['\u{1F36B}', '\u{1F369}', '\u2728', '\u{1F381}', '\u{1F36B}', '\u{1F369}', '\u2728', '\u{1F381}'];
+                var fragment = document.createDocumentFragment();
+                fragment.appendChild(bg);
+                fragment.appendChild(drip);
+                fragment.appendChild(particles);
+                decos.forEach(function (icon) {
+                    var el = document.createElement('span');
+                    el.className = 'novedad-deco';
+                    el.setAttribute('aria-hidden', 'true');
+                    el.textContent = icon;
+                    fragment.appendChild(el);
+                });
+
+                section.insertBefore(fragment, section.querySelector('.container'));
+            });
+        }
+
+        initSectionEffects();
+
+        function openModalFromCarousel(title, trackId, desc) {
+            const track = document.getElementById(trackId);
+            if (!track) return;
+            const imgs = Array.from(track.querySelectorAll('img:not(.card-carousel-clone)')).map(function (img) {
+                return img.getAttribute('src') || img.src;
+            });
+            const index = parseInt(track.dataset.index || '0', 10);
+            const realIndex = index >= imgs.length ? 0 : index;
+            openModalGallery(title, imgs, realIndex, desc);
+        }
+
         function scrollCarousel(id, direction) {
             const carousel = document.getElementById(id);
             const scrollAmount = carousel.offsetWidth * 0.8;
@@ -2871,10 +3728,13 @@
 
     <footer>
         <div class="container">
-            <h2>Abastécete con lo mejor</h2>
-            <p>Solicite nuestra lista mayorista exclusiva para Cafeterías y Locales.</p>
-            <div style="margin-top: 35px;">
-                <button class="footer-btn">Solicitar Info Comercial</button>
+            <div class="footer-cta-main">
+                <h2>Hacé tu pedido</h2>
+                <p>Consultá disponibilidad y precios de nuestros productos artesanales por WhatsApp.</p>
+                <a href="https://wa.me/5493876856022?text=Hola%20SOS%20Bombones!%20Me%20gustar%C3%ADa%20hacer%20una%20consulta."
+                    class="footer-btn-wa" target="_blank" rel="noopener noreferrer">
+                    Consultar por WhatsApp
+                </a>
             </div>
             <div class="contact-info">
                 <p>📍 Ibazeta 580, Ciudad de Salta</p>
@@ -2888,7 +3748,11 @@
         <div class="modal-content">
             <span class="modal-close" onclick="closeModal()">&times;</span>
             <div class="modal-gallery">
+                <button type="button" class="modal-carousel-arrow modal-carousel-prev" aria-label="Imagen anterior"
+                    onclick="slideModalGallery(-1)">&#10094;</button>
                 <img id="modalImg" src="" alt="Producto" onclick="toggleZoom()">
+                <button type="button" class="modal-carousel-arrow modal-carousel-next" aria-label="Imagen siguiente"
+                    onclick="slideModalGallery(1)">&#10095;</button>
                 <button class="btn-zoom" onclick="toggleZoom()" title="Ampliar imagen">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -2914,13 +3778,38 @@
     </div>
 
     <script>
-        function openModal(title, img, desc) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalImg').src = img;
-            document.getElementById('modalDesc').innerText = desc;
+        var modalGalleryImages = [];
+        var modalGalleryIndex = 0;
 
+        function updateModalGalleryNav() {
+            document.querySelector('.modal-gallery').classList.toggle(
+                'has-modal-nav',
+                modalGalleryImages.length > 1
+            );
+        }
+
+        function slideModalGallery(direction) {
+            if (modalGalleryImages.length <= 1) return;
+            document.querySelector('.modal-gallery').classList.remove('zoomed');
+            var total = modalGalleryImages.length;
+            modalGalleryIndex = (modalGalleryIndex + direction + total) % total;
+            document.getElementById('modalImg').src = modalGalleryImages[modalGalleryIndex];
+        }
+
+        function openModalGallery(title, images, startIndex, desc) {
+            modalGalleryImages = images;
+            modalGalleryIndex = startIndex || 0;
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('modalImg').src = modalGalleryImages[modalGalleryIndex];
+            updateModalGalleryNav();
+            document.querySelector('.modal-gallery').classList.remove('zoomed');
             document.getElementById('productModal').classList.add('active');
             document.body.style.overflow = 'hidden';
+        }
+
+        function openModal(title, img, desc) {
+            openModalGallery(title, [img], 0, desc);
         }
 
         function consultarWhatsApp(event) {
@@ -2934,6 +3823,9 @@
             document.getElementById('productModal').classList.remove('active');
             document.body.style.overflow = 'auto';
             document.querySelector('.modal-gallery').classList.remove('zoomed');
+            modalGalleryImages = [];
+            modalGalleryIndex = 0;
+            updateModalGalleryNav();
         }
 
         function toggleZoom() {
